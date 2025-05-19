@@ -9,7 +9,12 @@ interface TestimonialCardProps {
   avatar: string;
 }
 
-export function TestimonialCard({ quote, name, title, avatar }: TestimonialCardProps) {
+export function TestimonialCard({
+  quote,
+  name,
+  title,
+  avatar,
+}: TestimonialCardProps) {
   return (
     <Card className="bg-background/50 border-border/50 shadow-lg">
       <CardContent className="pt-6">
@@ -19,7 +24,7 @@ export function TestimonialCard({ quote, name, title, avatar }: TestimonialCardP
           </div>
         </div>
         <blockquote className="text-center text-lg italic text-muted-foreground mb-6">
-          "{quote}"
+          &quot;{quote}&quot;
         </blockquote>
       </CardContent>
       <CardFooter className="flex flex-col items-center border-t border-border/20 pt-6">

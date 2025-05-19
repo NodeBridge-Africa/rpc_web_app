@@ -68,7 +68,7 @@ export default function SponsorPackages() {
             Sponsorship Packages
           </h2>
           <p className="text-lg text-muted-foreground">
-            Choose the sponsorship level that aligns with your organization's
+            Choose the sponsorship level that aligns with your organization&apos;s
             goals and budget.
           </p>
         </motion.div>

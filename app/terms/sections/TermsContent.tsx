@@ -22,7 +22,7 @@ export default function TermsContent() {
             Terms of Service
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            These Terms of Service govern your use of Nodebridge Africa's
+            These Terms of Service govern your use of Nodebridge Africa&apos;s
             services. By accessing or using our platform, you agree to these
             terms. Please read them carefully. For more information, see our{" "}
             <a href="/privacy" className="text-[#10B981] underline">
@@ -96,11 +96,11 @@ export default function TermsContent() {
           <div>
             <h3 className="font-semibold text-xl mb-2">4. No Warranties</h3>
             <p>
-              The Nodebridge Africa website and its content are provided "as is"
-              and "as available" without any warranties of any kind, either
-              express or implied. We do not warrant that the website will be
-              uninterrupted, error-free, or free from viruses or other harmful
-              components.
+              The Nodebridge Africa website and its content are provided
+              &quot;as is&quot; and &quot;as available&quot; without any
+              warranties of any kind, either express or implied. We do not
+              warrant that the website will be uninterrupted, error-free, or
+              free from viruses or other harmful components.
             </p>
           </div>
           <div>

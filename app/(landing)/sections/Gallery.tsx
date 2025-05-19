@@ -48,7 +48,7 @@ export default function Gallery() {
           className="max-w-2xl mx-auto text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Gallery: Past Events & Workshops
+            Past Events & Workshops
           </h2>
           <p className="text-lg text-muted-foreground">
             Explore moments from our recent events, bootcamps, and workshops

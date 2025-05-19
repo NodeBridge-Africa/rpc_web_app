@@ -1,37 +1,50 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Globe, Users, Lightbulb, Building, Flag, Sparkles } from "lucide-react";
+import {
+  Globe,
+  Users,
+  Lightbulb,
+  Building,
+  Flag,
+  Sparkles,
+} from "lucide-react";
 
 const benefits = [
   {
     title: "Pan-African Reach",
-    description: "Connect with developers, node operators, and Web3 enthusiasts across multiple African countries.",
+    description:
+      "Connect with developers, node operators, and Web3 enthusiasts across multiple African countries.",
     icon: <Globe className="h-8 w-8 text-[#10B981]" />,
   },
   {
     title: "Community Engagement",
-    description: "Direct access to our growing community through workshops, events, and our digital platforms.",
+    description:
+      "Direct access to our growing community through workshops, events, and our digital platforms.",
     icon: <Users className="h-8 w-8 text-[#10B981]" />,
   },
   {
     title: "Innovation Support",
-    description: "Fund cutting-edge blockchain infrastructure that addresses Africa's unique challenges.",
+    description:
+      "Fund cutting-edge blockchain infrastructure that addresses Africa's unique challenges.",
     icon: <Lightbulb className="h-8 w-8 text-[#10B981]" />,
   },
   {
     title: "Brand Recognition",
-    description: "Position your brand as a leader in supporting Africa's digital future and Web3 innovation.",
+    description:
+      "Position your brand as a leader in supporting Africa's digital future and Web3 innovation.",
     icon: <Building className="h-8 w-8 text-[#10B981]" />,
   },
   {
     title: "Market Entry",
-    description: "Ideal for organizations looking to establish presence in African blockchain markets.",
+    description:
+      "Ideal for organizations looking to establish presence in African blockchain markets.",
     icon: <Flag className="h-8 w-8 text-[#10B981]" />,
   },
   {
     title: "Talent Pipeline",
-    description: "Connect with skilled African blockchain developers, engineers, and entrepreneurs.",
+    description:
+      "Connect with skilled African blockchain developers, engineers, and entrepreneurs.",
     icon: <Sparkles className="h-8 w-8 text-[#10B981]" />,
   },
 ];
@@ -51,7 +64,8 @@ export default function SponsorBenefits() {
             Why Sponsor Nodebridge Africa?
           </h2>
           <p className="text-lg text-muted-foreground">
-            Join leading organizations in supporting Africa's growing blockchain ecosystem.
+            Join leading organizations in supporting Africa&apos;s growing
+            blockchain ecosystem.
           </p>
         </motion.div>
 

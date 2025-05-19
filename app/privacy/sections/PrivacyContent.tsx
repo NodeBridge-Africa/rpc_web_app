@@ -131,11 +131,11 @@ export default function PrivacyContent() {
           <div>
             <h3 className="font-semibold text-xl mb-2">7. No Warranties</h3>
             <p>
-              The Nodebridge Africa website and its content are provided "as is"
-              and "as available" without any warranties of any kind, either
-              express or implied. We do not warrant that the website will be
-              uninterrupted, error-free, or free from viruses or other harmful
-              components.
+              The Nodebridge Africa website and its content are provided
+              &quot;as is&quot; and &quot;as available&quot; without any
+              warranties of any kind, either express or implied. We do not
+              warrant that the website will be uninterrupted, error-free, or
+              free from viruses or other harmful components.
             </p>
           </div>
           <div>

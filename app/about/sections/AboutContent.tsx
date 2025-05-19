@@ -224,8 +224,9 @@ export default function AboutContent() {
               <p className="text-muted-foreground mb-6">
                 We invite you to explore our resources, engage with our
                 community, and embark on your blockchain journey with us.
-                Whether you're new to blockchain or an experienced professional,
-                Nodebridge Africa is here to support you every step of the way.
+                Whether you&apos;re new to blockchain or an experienced
+                professional, Nodebridge Africa is here to support you every
+                step of the way.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link
