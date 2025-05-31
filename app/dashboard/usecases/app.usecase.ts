@@ -66,7 +66,7 @@ export class AppUseCase {
     appId: string,
     updates: UpdateAppRequest
   ): Promise<UpdateAppResponse> {
-    const response = await axiosInstance.put<UpdateAppResponse>(
+    const response = await axiosInstance.patch<UpdateAppResponse>(
       `${API_ROUTES.APPS.BASE}/${appId}`,
       updates
     );

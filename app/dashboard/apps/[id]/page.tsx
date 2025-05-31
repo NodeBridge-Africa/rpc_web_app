@@ -15,6 +15,7 @@ import {
   Loader2,
   Check,
 } from "lucide-react";
+import { EditAppModal } from "@/app/dashboard/components/EditAppModal";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -64,6 +65,7 @@ export default function AppDetailsPage() {
   const [copiedApiKey, setCopiedApiKey] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showRegenerateDialog, setShowRegenerateDialog] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const { data: appData, isLoading } = useUserApp(appId);
   const { data: usageData, isLoading: usageLoading } =
@@ -133,6 +135,7 @@ export default function AppDetailsPage() {
   }
 
   if (!app) {
+    router.push("/dashboard/apps");
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <h2 className="text-2xl font-semibold mb-2">App not found</h2>
@@ -164,12 +167,10 @@ export default function AppDetailsPage() {
           </div>
         </div>
         <div className="flex gap-2">
-          <Link href={`/dashboard/apps/${appId}/edit`}>
-            <Button variant="outline">
-              <Edit className="mr-2 h-4 w-4" />
-              Edit
-            </Button>
-          </Link>
+          <Button variant="outline" onClick={() => setShowEditModal(true)}>
+            <Edit className="mr-2 h-4 w-4" />
+            Edit
+          </Button>
           <Button
             variant="destructive"
             onClick={() => setShowDeleteDialog(true)}
@@ -329,7 +330,11 @@ export default function AppDetailsPage() {
         <CardContent className="space-y-4">
           <div className="flex items-center gap-2">
             <div className="flex-1 font-mono text-sm bg-muted p-3 rounded-md">
-              {showApiKey ? app.apiKey : "••••••••••••••••••••••••••••••••"}
+              {showRegenerateDialog || regenerateKeyMutation.isPending
+                ? "••••••••••••••••••••••••••••••••"
+                : showApiKey
+                ? app.apiKey
+                : "••••••••••••••••••••••••••••••••"}
             </div>
             <Button
               variant="outline"
@@ -384,11 +389,21 @@ export default function AppDetailsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-sm font-medium mb-2">RPC Endpoint</p>
+            <p className="text-sm font-medium mb-2">Execution RPC Endpoint</p>
             <code className="block bg-muted p-3 rounded-md text-sm">
               {`${
                 process.env.NEXT_PUBLIC_BACKEND_API_URL
               }/${app.chainName.toLowerCase()}/exec/${
+                app.apiKey || "YOUR_API_KEY"
+              }`}
+            </code>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-2">RPC Endpoint Consensus</p>
+            <code className="block bg-muted p-3 rounded-md text-sm">
+              {`${
+                process.env.NEXT_PUBLIC_BACKEND_API_URL
+              }/${app.chainName.toLowerCase()}/cons/${
                 app.apiKey || "YOUR_API_KEY"
               }`}
             </code>
@@ -473,6 +488,15 @@ export default function AppDetailsPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Edit App Modal */}
+      {app && (
+        <EditAppModal
+          app={app}
+          open={showEditModal}
+          onOpenChange={setShowEditModal}
+        />
+      )}
     </div>
   );
 }
