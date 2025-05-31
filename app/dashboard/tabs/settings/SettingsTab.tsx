@@ -1,22 +1,28 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
-import { useProfile } from '../../hooks/useProfile';
-import { useDashboardStats } from '../../hooks/useApps';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  User, 
-  Shield, 
-  Calendar, 
-  Mail, 
-  AppWindow, 
+import { useSession } from "next-auth/react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { useProfile } from "../../hooks/useProfile";
+import { useDashboardStats } from "../../hooks/useApps";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  User,
+  Shield,
+  Calendar,
+  Mail,
+  AppWindow,
   BarChart3,
-  Settings as SettingsIcon
-} from 'lucide-react';
+  Settings as SettingsIcon,
+} from "lucide-react";
 
 export function SettingsTab() {
   const { data: session } = useSession();
@@ -24,14 +30,14 @@ export function SettingsTab() {
   const { data: profileData, isLoading: profileLoading } = useProfile();
   const { data: statsData, isLoading: statsLoading } = useDashboardStats();
 
-  const profile = profileData?.data.user;
-  const stats = statsData?.data.stats;
+  const profile = profileData?.data?.user;
+  const stats = statsData?.data?.stats;
 
-  const InfoCard = ({ 
-    title, 
-    children 
-  }: { 
-    title: string; 
+  const InfoCard = ({
+    title,
+    children,
+  }: {
+    title: string;
     children: React.ReactNode;
   }) => (
     <Card>
@@ -42,15 +48,15 @@ export function SettingsTab() {
     </Card>
   );
 
-  const InfoRow = ({ 
-    icon: Icon, 
-    label, 
-    value, 
-    loading = false 
-  }: { 
-    icon: React.ElementType; 
-    label: string; 
-    value: React.ReactNode; 
+  const InfoRow = ({
+    icon: Icon,
+    label,
+    value,
+    loading = false,
+  }: {
+    icon: React.ElementType;
+    label: string;
+    value: React.ReactNode;
     loading?: boolean;
   }) => (
     <div className="flex items-center justify-between py-2">
@@ -103,12 +109,12 @@ export function SettingsTab() {
               label="Member Since"
               value={
                 profile?.createdAt
-                  ? new Date(profile.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
+                  ? new Date(profile.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
                     })
-                  : 'N/A'
+                  : "N/A"
               }
               loading={profileLoading}
             />
@@ -163,7 +169,8 @@ export function SettingsTab() {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Account management features are coming soon. Contact support for assistance.
+            Account management features are coming soon. Contact support for
+            assistance.
           </p>
         </CardContent>
       </Card>
@@ -181,19 +188,22 @@ export function SettingsTab() {
             <div>
               <h4 className="font-medium">Rate Limits</h4>
               <p className="text-muted-foreground">
-                Each app has individual rate limits. Check your app settings for specific limits.
+                Each app has individual rate limits. Check your app settings for
+                specific limits.
               </p>
             </div>
             <div>
               <h4 className="font-medium">API Key Security</h4>
               <p className="text-muted-foreground">
-                Keep your API keys secure and never expose them in client-side code.
+                Keep your API keys secure and never expose them in client-side
+                code.
               </p>
             </div>
             <div>
               <h4 className="font-medium">Fair Usage</h4>
               <p className="text-muted-foreground">
-                Our services are subject to fair usage policies. Excessive usage may result in temporary restrictions.
+                Our services are subject to fair usage policies. Excessive usage
+                may result in temporary restrictions.
               </p>
             </div>
           </div>

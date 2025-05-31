@@ -1,33 +1,38 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useDashboardStats } from '../../hooks/useApps';
-import { useUserApps } from '../../hooks/useApps';
-import { Skeleton } from '@/components/ui/skeleton';
-import { AppWindow, BarChart3, TrendingUp, Clock } from 'lucide-react';
-import Link from 'next/link';
+import { useSession } from "next-auth/react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useDashboardStats } from "../../hooks/useApps";
+import { useUserApps } from "../../hooks/useApps";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AppWindow, BarChart3, TrendingUp, Clock } from "lucide-react";
+import Link from "next/link";
 
 export function OverviewTab() {
   const { data: session } = useSession();
   const user = session?.user;
-  const { data: statsData, isLoading: statsLoading } = useDashboardStats('overview');
-  const { data: appsData, isLoading: appsLoading } = useUserApps(1, 5, 'overview');
+  const { data: statsData, isLoading: statsLoading } =
+    useDashboardStats("overview");
+  const { data: appsData, isLoading: appsLoading } = useUserApps(
+    1,
+    5,
+    "overview"
+  );
 
-  const stats = statsData?.data.stats;
-  const recentApps = appsData?.data.apps || [];
+  const stats = statsData?.data?.stats;
+  const recentApps = appsData?.data?.apps || [];
 
-  const StatCard = ({ 
-    title, 
-    value, 
-    icon: Icon, 
-    description 
-  }: { 
-    title: string; 
-    value: string | number; 
-    icon: React.ElementType; 
-    description: string 
+  const StatCard = ({
+    title,
+    value,
+    icon: Icon,
+    description,
+  }: {
+    title: string;
+    value: string | number;
+    icon: React.ElementType;
+    description: string;
   }) => (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -45,10 +50,10 @@ export function OverviewTab() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
-        <p className="text-muted-foreground">
-          Welcome back, {user?.email}
-        </p>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Dashboard Overview
+        </h1>
+        <p className="text-muted-foreground">Welcome back, {user?.email}</p>
       </div>
 
       {/* Stats Grid */}
@@ -154,7 +159,10 @@ export function OverviewTab() {
           ) : (
             <div className="space-y-4">
               {recentApps.map((app) => (
-                <div key={app._id} className="flex items-center justify-between space-x-4">
+                <div
+                  key={app._id}
+                  className="flex items-center justify-between space-x-4"
+                >
                   <div className="flex items-center space-x-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                       <AppWindow className="h-5 w-5 text-primary" />

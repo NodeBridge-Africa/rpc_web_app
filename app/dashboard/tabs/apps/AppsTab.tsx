@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useUserApps, useDeleteApp } from '../../hooks/useApps';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useState } from "react";
+import { useUserApps, useDeleteApp } from "../../hooks/useApps";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,35 +22,35 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { 
-  AppWindow, 
-  Plus, 
-  MoreVertical, 
-  Edit, 
-  Trash2, 
-  Key, 
+} from "@/components/ui/dropdown-menu";
+import {
+  AppWindow,
+  Plus,
+  MoreVertical,
+  Edit,
+  Trash2,
+  Key,
   Activity,
-  Eye
-} from 'lucide-react';
-import Link from 'next/link';
-import { AppResponse } from '@/lib/types/backend.types';
+  Eye,
+} from "lucide-react";
+import Link from "next/link";
+import { AppResponse } from "@/lib/types/backend.types";
 
 export function AppsTab() {
   const [page, setPage] = useState(1);
   const limit = 10;
-  const { data, isLoading, error } = useUserApps(page, limit, 'apps');
+  const { data, isLoading, error } = useUserApps(page, limit, "apps");
   const { mutate: deleteApp, isPending: isDeleting } = useDeleteApp();
 
-  const apps = data?.data.apps || [];
-  const pagination = data?.data.pagination;
+  const apps = data?.data?.apps || [];
+  const pagination = data?.data?.pagination;
 
   const handleDelete = (appId: string) => {
     deleteApp(appId);
@@ -61,7 +67,7 @@ export function AppsTab() {
             <div>
               <CardTitle className="text-lg">{app.name}</CardTitle>
               <CardDescription className="flex items-center gap-2">
-                {app.description || 'No description'}
+                {app.description || "No description"}
               </CardDescription>
             </div>
           </div>
@@ -73,19 +79,28 @@ export function AppsTab() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <Link href={`/dashboard/apps/${app._id}`} className="flex items-center">
+                <Link
+                  href={`/dashboard/apps/${app._id}`}
+                  className="flex items-center"
+                >
                   <Eye className="mr-2 h-4 w-4" />
                   View Details
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={`/dashboard/apps/${app._id}/edit`} className="flex items-center">
+                <Link
+                  href={`/dashboard/apps/${app._id}/edit`}
+                  className="flex items-center"
+                >
                   <Edit className="mr-2 h-4 w-4" />
                   Edit
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={`/dashboard/apps/${app._id}/api-key`} className="flex items-center">
+                <Link
+                  href={`/dashboard/apps/${app._id}/api-key`}
+                  className="flex items-center"
+                >
                   <Key className="mr-2 h-4 w-4" />
                   Manage API Key
                 </Link>
@@ -93,7 +108,7 @@ export function AppsTab() {
               <DropdownMenuSeparator />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     className="text-destructive focus:text-destructive"
                     onSelect={(e) => e.preventDefault()}
                   >
@@ -105,8 +120,9 @@ export function AppsTab() {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete App</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete "{app.name}"? This action cannot be undone.
-                      All API keys and data associated with this app will be permanently deleted.
+                      Are you sure you want to delete "{app.name}"? This action
+                      cannot be undone. All API keys and data associated with
+                      this app will be permanently deleted.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -134,18 +150,24 @@ export function AppsTab() {
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Status:</span>
             <div className="flex items-center gap-2">
-              <Activity className={`h-3 w-3 ${
-                app.isActive ? 'text-green-500' : 'text-red-500'
-              }`} />
-              <span className={app.isActive ? 'text-green-500' : 'text-red-500'}>
-                {app.isActive ? 'Active' : 'Inactive'}
+              <Activity
+                className={`h-3 w-3 ${
+                  app.isActive ? "text-green-500" : "text-red-500"
+                }`}
+              />
+              <span
+                className={app.isActive ? "text-green-500" : "text-red-500"}
+              >
+                {app.isActive ? "Active" : "Inactive"}
               </span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <span className="text-muted-foreground">Today's Requests:</span>
-              <p className="font-medium">{app.dailyRequests.toLocaleString()}</p>
+              <p className="font-medium">
+                {app.dailyRequests.toLocaleString()}
+              </p>
             </div>
             <div>
               <span className="text-muted-foreground">Total Requests:</span>
@@ -159,7 +181,9 @@ export function AppsTab() {
             </div>
             <div>
               <span className="text-muted-foreground">Daily Limit:</span>
-              <p className="font-medium">{app.dailyRequestsLimit.toLocaleString()}</p>
+              <p className="font-medium">
+                {app.dailyRequestsLimit.toLocaleString()}
+              </p>
             </div>
           </div>
         </div>
@@ -176,7 +200,9 @@ export function AppsTab() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center py-8">
-              <p className="text-destructive">Failed to load apps. Please try again.</p>
+              <p className="text-destructive">
+                Failed to load apps. Please try again.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -236,7 +262,8 @@ export function AppsTab() {
               <AppWindow className="mx-auto h-12 w-12 text-muted-foreground" />
               <h3 className="mt-2 text-lg font-semibold">No apps yet</h3>
               <p className="mt-1 text-muted-foreground">
-                Create your first app to start using the blockchain infrastructure.
+                Create your first app to start using the blockchain
+                infrastructure.
               </p>
               <div className="mt-6">
                 <Button asChild>

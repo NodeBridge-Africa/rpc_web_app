@@ -1,4 +1,5 @@
 import axiosInstance from '@/lib/api/axios';
+import { API_ROUTES } from '@/lib/types/routes';
 import {
   ListAppsResponse,
   CreateAppResponse,
@@ -11,15 +12,13 @@ import {
   DashboardStatsResponse,
 } from '@/lib/types/backend.types';
 
-const APP_BASE_URL = '/apps';
-
 export class AppUseCase {
   /**
    * Get all user apps with pagination
    */
   async getUserApps(page: number = 1, limit: number = 10): Promise<ListAppsResponse> {
     const response = await axiosInstance.get<ListAppsResponse>(
-      `${APP_BASE_URL}?page=${page}&limit=${limit}`
+      `${API_ROUTES.APPS.LIST}?page=${page}&limit=${limit}`
     );
     return response.data;
   }
@@ -29,7 +28,7 @@ export class AppUseCase {
    */
   async getUserApp(appId: string): Promise<GetAppResponse> {
     const response = await axiosInstance.get<GetAppResponse>(
-      `${APP_BASE_URL}/${appId}`
+      `${API_ROUTES.APPS.BASE}/${appId}`
     );
     return response.data;
   }
@@ -39,7 +38,7 @@ export class AppUseCase {
    */
   async createApp(appData: CreateAppRequest): Promise<CreateAppResponse> {
     const response = await axiosInstance.post<CreateAppResponse>(
-      APP_BASE_URL,
+      API_ROUTES.APPS.CREATE,
       appData
     );
     return response.data;
@@ -50,7 +49,7 @@ export class AppUseCase {
    */
   async updateApp(appId: string, updates: UpdateAppRequest): Promise<UpdateAppResponse> {
     const response = await axiosInstance.put<UpdateAppResponse>(
-      `${APP_BASE_URL}/${appId}`,
+      `${API_ROUTES.APPS.BASE}/${appId}`,
       updates
     );
     return response.data;
@@ -61,7 +60,7 @@ export class AppUseCase {
    */
   async deleteApp(appId: string): Promise<DeleteAppResponse> {
     const response = await axiosInstance.delete<DeleteAppResponse>(
-      `${APP_BASE_URL}/${appId}`
+      `${API_ROUTES.APPS.BASE}/${appId}`
     );
     return response.data;
   }
@@ -71,7 +70,7 @@ export class AppUseCase {
    */
   async regenerateApiKey(appId: string): Promise<RegenerateKeyResponse> {
     const response = await axiosInstance.post<RegenerateKeyResponse>(
-      `${APP_BASE_URL}/${appId}/regenerate-key`
+      API_ROUTES.APPS.REGENERATE_KEY(appId)
     );
     return response.data;
   }
@@ -81,7 +80,7 @@ export class AppUseCase {
    */
   async getDashboardStats(): Promise<DashboardStatsResponse> {
     const response = await axiosInstance.get<DashboardStatsResponse>(
-      `${APP_BASE_URL}/dashboard/stats`
+      `${API_ROUTES.APPS.BASE}/dashboard/stats`
     );
     return response.data;
   }
