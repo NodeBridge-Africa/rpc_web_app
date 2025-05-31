@@ -60,26 +60,39 @@ export interface Chain {
 }
 
 // Admin Types
+export interface NodeHealthNode {
+  nodeIndex: number;
+  nodeUrl: string;
+  status: "available" | "unavailable";
+  error: string | null;
+  syncing?: boolean | "unknown" | {
+    startingBlock: string;
+    currentBlock: string;
+    highestBlock: string;
+    warpChunksAmount: string | null;
+    warpChunksProcessed: string | null;
+    stages: Array<{
+      name: string;
+      block: string;
+    }>;
+  };
+  head_slot?: string | "unknown";
+}
+
+export interface NodeHealthService {
+  status: "healthy" | "unhealthy" | "not_configured";
+  totalNodes: number;
+  availableNodes: number;
+  nodes: NodeHealthNode[];
+}
+
 export interface NodeHealth {
   chain: string;
-  status: "healthy" | "unhealthy" | "degraded" | "unknown";
-  details: {
-    execution?: {
-      status: string;
-      latency?: number;
-      error?: string;
-    };
-    consensus?: {
-      status: string;
-      latency?: number;
-      error?: string;
-    };
-    prometheus?: {
-      status: string;
-      latency?: number;
-      error?: string;
-    };
-  };
+  timestamp: string;
+  overall: "healthy" | "unhealthy" | "degraded" | "not_configured";
+  execution: NodeHealthService;
+  consensus: NodeHealthService;
+  metrics: NodeHealthService;
 }
 
 export interface DefaultAppSettings {

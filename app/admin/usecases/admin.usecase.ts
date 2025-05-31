@@ -195,25 +195,33 @@ export const adminUseCase = {
     // Get all chains first, then fetch health for each
     const chains = await adminUseCase.getChains();
 
-    const healthPromises = chains.map(async (chain) => {
+    const healthPromises = chains.map(async (chain): Promise<NodeHealth> => {
       try {
         return await adminUseCase.getNodeHealthByChain(chain.name);
-      } catch (error) {
-        // If health check fails, return unhealthy status
+      } catch {
         return {
           chain: chain.name,
-          status: "unhealthy" as const,
-          details: {
-            execution: {
-              status: "unhealthy",
-              error: "Failed to fetch health data",
-            },
-            consensus: {
-              status: "unhealthy",
-              error: "Failed to fetch health data",
-            },
+          timestamp: new Date().toISOString(),
+          overall: "unhealthy",
+          execution: {
+            status: "unhealthy",
+            totalNodes: 0,
+            availableNodes: 0,
+            nodes: [],
           },
-        };
+          consensus: {
+            status: "unhealthy",
+            totalNodes: 0,
+            availableNodes: 0,
+            nodes: [],
+          },
+          metrics: {
+            status: "not_configured",
+            totalNodes: 0,
+            availableNodes: 0,
+            nodes: [],
+          },
+        } as NodeHealth;
       }
     });
 
@@ -225,34 +233,8 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.NODE_HEALTH_BY_CHAIN(chain)
     );
 
-    console.log(data);
-    // Backend returns node health data directly (not wrapped in success/data structure)
-    // Transform backend response to frontend types
-    return {
-      chain: data.data.chain,
-      status: data.data.overallStatus,
-      details: {
-        execution: {
-          status: data.data.execution.status,
-          latency: undefined, // Backend doesn't provide latency in this format
-          error: data.data.execution.error,
-        },
-        consensus: {
-          status: data.data.consensus.status,
-          latency: undefined, // Backend doesn't provide latency in this format
-          error: data.data.consensus.error,
-        },
-        prometheus: data.data.prometheus
-          ? {
-              status:
-                data.data.prometheus.availableNodes > 0
-                  ? "healthy"
-                  : "unhealthy",
-              latency: undefined, // Backend doesn't provide latency in this format
-            }
-          : undefined,
-      },
-    };
+    // Return the full data from backend
+    return data.data;
   },
 
   // Default Settings
