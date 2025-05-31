@@ -153,6 +153,7 @@ export const useAdminChain = (chainId: string) => {
   });
 };
 
+//chain mutations
 export const useCreateChain = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -161,6 +162,9 @@ export const useCreateChain = () => {
     mutationFn: adminUseCase.createChain,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.adminChains() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.adminNodeHealthList(),
+      });
       toast({
         title: "Chain created",
         description: "Chain has been created successfully.",
@@ -194,6 +198,9 @@ export const useUpdateChain = () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.adminChainDetail(variables.chainId),
       });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.adminNodeHealthList(),
+      });
       toast({
         title: "Chain updated",
         description: "Chain has been updated successfully.",
@@ -218,6 +225,9 @@ export const useDeleteChain = () => {
     mutationFn: adminUseCase.deleteChain,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.adminChains() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.adminNodeHealthList(),
+      });
       toast({
         title: "Chain deleted",
         description: "Chain has been deleted successfully.",

@@ -225,6 +225,7 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.NODE_HEALTH_BY_CHAIN(chain)
     );
 
+    console.log(data);
     // Backend returns node health data directly (not wrapped in success/data structure)
     // Transform backend response to frontend types
     return {

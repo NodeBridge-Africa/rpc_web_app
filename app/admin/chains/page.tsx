@@ -48,7 +48,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Network, Trash2, Edit } from "lucide-react";
+import { Plus, Network, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const chainSchema = z.object({
@@ -84,14 +84,14 @@ export default function AdminChainsPage() {
 
   const handleToggleActive = (chain: Chain) => {
     updateChain({
-      chainId: chain._id,
+      chainId: chain.chainId.toString(),
       updates: { isEnabled: !chain.isEnabled },
     });
   };
 
   const handleDeleteChain = () => {
     if (deleteDialog) {
-      deleteChain(deleteDialog._id);
+      deleteChain(deleteDialog.chainId.toString());
       setDeleteDialog(null);
     }
   };

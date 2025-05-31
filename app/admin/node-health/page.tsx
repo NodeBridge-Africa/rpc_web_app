@@ -81,23 +81,23 @@ export default function AdminNodeHealthPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    {getStatusIcon(node.status)}
+                    {getStatusIcon(node?.status)}
                     <div>
                       <CardTitle>{node.chain}</CardTitle>
                       <CardDescription>
-                        Overall Status: {node.status}
+                        Overall Status: {node?.status}
                       </CardDescription>
                     </div>
                   </div>
-                  <Badge variant={getStatusVariant(node.status)}>
-                    {node.status.toUpperCase()}
+                  <Badge variant={getStatusVariant(node?.status)}>
+                    {node?.status?.toUpperCase()}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6 md:grid-cols-3">
                   {/* Execution Node */}
-                  {node.details.execution && (
+                  {node?.details?.execution && (
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <Cpu className="h-4 w-4" />
@@ -110,29 +110,29 @@ export default function AdminNodeHealthPage() {
                           </span>
                           <Badge
                             variant={getStatusVariant(
-                              node.details.execution.status
+                              node?.details?.execution?.status
                             )}
                           >
-                            {node.details.execution.status}
+                            {node?.details?.execution?.status}
                           </Badge>
                         </div>
-                        {node.details.execution.latency !== undefined && (
+                        {node?.details?.execution?.latency !== undefined && (
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-muted-foreground">
                               Latency
                             </span>
                             <span
                               className={`text-sm font-medium ${getLatencyColor(
-                                node.details.execution.latency
+                                node?.details?.execution?.latency
                               )}`}
                             >
-                              {node.details.execution.latency}ms
+                              {node?.details?.execution?.latency}ms
                             </span>
                           </div>
                         )}
-                        {node.details.execution.error && (
+                        {node?.details?.execution?.error && (
                           <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
-                            {node.details.execution.error}
+                            {node?.details?.execution?.error}
                           </div>
                         )}
                       </div>
@@ -140,7 +140,7 @@ export default function AdminNodeHealthPage() {
                   )}
 
                   {/* Consensus Node */}
-                  {node.details.consensus && (
+                  {node?.details?.consensus && (
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <Database className="h-4 w-4" />
@@ -153,29 +153,29 @@ export default function AdminNodeHealthPage() {
                           </span>
                           <Badge
                             variant={getStatusVariant(
-                              node.details.consensus.status
+                              node?.details?.consensus?.status
                             )}
                           >
-                            {node.details.consensus.status}
+                            {node?.details?.consensus?.status}
                           </Badge>
                         </div>
-                        {node.details.consensus.latency !== undefined && (
+                        {node?.details?.consensus?.latency !== undefined && (
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-muted-foreground">
                               Latency
                             </span>
                             <span
                               className={`text-sm font-medium ${getLatencyColor(
-                                node.details.consensus.latency
+                                node?.details?.consensus?.latency
                               )}`}
                             >
-                              {node.details.consensus.latency}ms
+                              {node?.details?.consensus?.latency}ms
                             </span>
                           </div>
                         )}
-                        {node.details.consensus.error && (
+                        {node?.details?.consensus?.error && (
                           <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
-                            {node.details.consensus.error}
+                            {node?.details?.consensus?.error}
                           </div>
                         )}
                       </div>
@@ -183,7 +183,7 @@ export default function AdminNodeHealthPage() {
                   )}
 
                   {/* Prometheus */}
-                  {node.details.prometheus && (
+                  {node?.details?.prometheus && (
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <Activity className="h-4 w-4" />
@@ -196,29 +196,29 @@ export default function AdminNodeHealthPage() {
                           </span>
                           <Badge
                             variant={getStatusVariant(
-                              node.details.prometheus.status
+                              node?.details?.prometheus?.status
                             )}
                           >
-                            {node.details.prometheus.status}
+                            {node?.details?.prometheus?.status}
                           </Badge>
                         </div>
-                        {node.details.prometheus.latency !== undefined && (
+                        {node?.details?.prometheus?.latency !== undefined && (
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-muted-foreground">
                               Latency
                             </span>
                             <span
                               className={`text-sm font-medium ${getLatencyColor(
-                                node.details.prometheus.latency
+                                node?.details?.prometheus?.latency
                               )}`}
                             >
-                              {node.details.prometheus.latency}ms
+                              {node?.details?.prometheus?.latency}ms
                             </span>
                           </div>
                         )}
                         {node.details.prometheus.error && (
                           <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
-                            {node.details.prometheus.error}
+                            {node?.details?.prometheus?.error}
                           </div>
                         )}
                       </div>
