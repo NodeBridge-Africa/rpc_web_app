@@ -30,7 +30,7 @@ export default function Hero() {
     <section className="relative min-h-screen w-full flex items-center justify-center pt-24 pb-16 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 z-0" />
-      
+
       {/* Background network graphic */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="h-full w-full bg-[url('https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2100&auto=format&fit=crop')] bg-cover bg-center" />
@@ -56,7 +56,8 @@ export default function Hero() {
               variants={itemVariants}
             >
               Radically better{" "}
-              <span className="text-[#10B981]">blockchain infrastructure</span> for Africa
+              <span className="text-[#10B981]">blockchain infrastructure</span>{" "}
+              for Africa
             </motion.h1>
 
             <motion.p
@@ -68,12 +69,12 @@ export default function Hero() {
 
             <motion.div variants={itemVariants} className="mt-8 space-y-8">
               <div className="flex flex-col sm:flex-row items-start gap-4">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-[#10B981] hover:bg-[#059669] text-black gap-2 group min-w-[200px]"
                   asChild
                 >
-                  <Link href="/launch">
+                  <Link href="/auth/login">
                     Start for free
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -82,20 +83,20 @@ export default function Hero() {
                   Book a demo
                 </Button>
               </div>
-              
+
               <p className="text-sm text-muted-foreground">
                 Start building for free or{" "}
-                <Link href="#" className="text-[#10B981] hover:text-[#10B981]/80 hover:underline">
+                <Link
+                  href="#"
+                  className="text-[#10B981] hover:text-[#10B981]/80 hover:underline"
+                >
                   view pricing
                 </Link>
               </p>
             </motion.div>
           </div>
 
-          <motion.div
-            className="pt-8"
-            variants={itemVariants}
-          >
+          <motion.div className="pt-8" variants={itemVariants}>
             <CodeSnippetTabs />
           </motion.div>
         </motion.div>

@@ -220,13 +220,13 @@ export default function Header() {
               className="hidden xl:inline-block"
               asChild
             >
-              <Link href="/launch">Request RPC</Link>
+              <Link href="/auth/register">Request RPC</Link>
             </Button>
             <Button
               className="bg-[#10B981] hover:bg-[#059669] text-black hidden sm:inline-flex"
               asChild
             >
-              <Link href="/launch">Launch App</Link>
+              <Link href="/auth/login">Launch App</Link>
             </Button>
 
             {/* Mobile Menu */}

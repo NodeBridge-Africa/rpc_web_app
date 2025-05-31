@@ -1,11 +1,30 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Github } from "lucide-react";
-import Link from "next/link";
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginInput, loginSchema } from '@/lib/validators/auth.validators';
+import { useLogin, useAuthRedirect } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Github, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
-export default function LaunchPage() {
+export default function LoginPage() {
+  const { mutate: login, isPending } = useLogin();
+  useAuthRedirect(); // Handle redirects for authenticated users
+  const form = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = (data: LoginInput) => {
+    login(data);
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex">
       {/* Left side - Preview/Marketing */}
@@ -41,11 +60,13 @@ export default function LaunchPage() {
             <p className="text-gray-400 mt-2">Sign in to your account</p>
           </div>
 
-          <div className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <Button
+              type="button"
               variant="outline"
               className="w-full bg-white/5 border-white/10 hover:bg-white/10 text-white"
-              onClick={() => console.log("GitHub auth")}
+              onClick={() => console.log("GitHub auth not available in static export")}
+              disabled
             >
               <Github className="mr-2 h-4 w-4" />
               Continue with GitHub
@@ -68,10 +89,17 @@ export default function LaunchPage() {
                   Email
                 </label>
                 <Input
+                  {...form.register('email')}
                   type="email"
                   placeholder="you@example.com"
                   className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
+                  disabled={isPending}
                 />
+                {form.formState.errors.email && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {form.formState.errors.email.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -79,10 +107,17 @@ export default function LaunchPage() {
                   Password
                 </label>
                 <Input
+                  {...form.register('password')}
                   type="password"
                   placeholder="••••••••"
                   className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
+                  disabled={isPending}
                 />
+                {form.formState.errors.password && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {form.formState.errors.password.message}
+                  </p>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
@@ -96,16 +131,27 @@ export default function LaunchPage() {
                 </div>
               </div>
 
-              <Button className="w-full bg-[#10B981] hover:bg-[#059669] text-black font-medium">
-                Sign in
+              <Button 
+                type="submit"
+                className="w-full bg-[#10B981] hover:bg-[#059669] text-black font-medium"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  'Sign in'
+                )}
               </Button>
             </div>
-          </div>
+          </form>
 
           <p className="text-center text-sm text-gray-400">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link
-              href="#"
+              href="/auth/register"
               className="text-[#10B981] hover:text-[#10B981]/80 font-medium"
             >
               Sign up

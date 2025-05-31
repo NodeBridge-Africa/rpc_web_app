@@ -1,15 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/providers/theme-provider';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
+import { AppProviders } from '@/components/providers/app-providers';
+import LayoutWrapper from '@/components/layout/LayoutWrapper';
 
 export const metadata: Metadata = {
   title: 'Nodebridge Africa | Blockchain Infrastructure & RPC Endpoints',
@@ -24,18 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${inter.className} bg-background text-foreground min-h-screen flex flex-col`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-        >
-          <Header />
-          <main className="flex-1">
+      <body className="bg-background text-foreground min-h-screen flex flex-col font-sans">
+        <AppProviders>
+          <LayoutWrapper>
             {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
+          </LayoutWrapper>
+        </AppProviders>
       </body>
     </html>
   );

@@ -1,0 +1,255 @@
+// Backend API Response Types based on actual backend implementation
+
+// Auth Response Types
+export interface AuthLoginResponse {
+  success: boolean;
+  data: {
+    token: string;
+    user: {
+      id: string;
+      email: string;
+      isAdmin: boolean;
+      isActive: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+}
+
+export interface AuthRegisterResponse {
+  success: boolean;
+  data: {
+    token: string;
+    user: {
+      id: string;
+      email: string;
+      isAdmin: boolean;
+      isActive: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+}
+
+export interface AuthMeResponse {
+  success: boolean;
+  data: {
+    user: {
+      id: string;
+      email: string;
+      isActive: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+}
+
+// Error Response Type
+export interface ErrorResponse {
+  error: string;
+  details?: any;
+}
+
+// Chain Response Types
+export interface ChainResponse {
+  _id: string;
+  name: string;
+  chainId: number;
+  isEnabled: boolean;
+  adminNotes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminSuccessResponse {
+  success: boolean;
+  data: {
+    message: string;
+  };
+}
+
+// Node Health Response Types (matching backend controller response)
+export interface NodeHealthResponse {
+  chain: string;
+  timestamp: string;
+  execution: {
+    status: 'healthy' | 'unhealthy';
+    syncing: boolean;
+    synced: boolean;
+    error?: string;
+  };
+  consensus: {
+    status: 'healthy' | 'unhealthy';
+    syncing: boolean;
+    synced: boolean;
+    progress?: number;
+    error?: string;
+  };
+  prometheus?: {
+    availableNodes: number;
+    totalNodes: number;
+    nodes: Array<{
+      nodeIndex: number;
+      nodeUrl: string;
+      status: 'available' | 'unavailable';
+      error?: string | null;
+    }>;
+  };
+  overallStatus: 'healthy' | 'degraded' | 'unhealthy';
+}
+
+// App Response Types (from app.controller.ts)
+export interface AppResponse {
+  _id: string;
+  userId: string;
+  name: string;
+  description?: string;
+  apiKey?: string; // Optional for security (excluded in listings)
+  chainName: string;
+  chainId: string;
+  isActive: boolean;
+  requests: number;
+  dailyRequests: number;
+  maxRps: number;
+  dailyRequestsLimit: number;
+  lastResetDate: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateAppRequest {
+  name: string;
+  description?: string;
+  chainName: string;
+  chainId: string;
+}
+
+export interface UpdateAppRequest {
+  name?: string;
+  description?: string;
+}
+
+export interface CreateAppResponse {
+  success: boolean;
+  data: {
+    message: string;
+    app: AppResponse;
+  };
+}
+
+export interface GetAppResponse {
+  success: boolean;
+  data: {
+    message: string;
+    app: AppResponse;
+  };
+}
+
+export interface UpdateAppResponse {
+  success: boolean;
+  data: {
+    message: string;
+    app: AppResponse;
+  };
+}
+
+export interface DeleteAppResponse {
+  success: boolean;
+  data: {
+    message: string;
+  };
+}
+
+export interface RegenerateKeyResponse {
+  success: boolean;
+  data: {
+    message: string;
+    apiKey: string;
+  };
+}
+
+export interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalApps: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface ListAppsResponse {
+  success: boolean;
+  data: {
+    message: string;
+    apps: AppResponse[];
+    pagination: PaginationInfo;
+  };
+}
+
+export interface DashboardStats {
+  totalApps: number;
+  activeApps: number;
+  totalRequests: number;
+  todaysRequests: number;
+  maxApps: number;
+}
+
+export interface DashboardStatsResponse {
+  success: boolean;
+  data: {
+    message: string;
+    stats: DashboardStats;
+  };
+}
+
+// Default App Settings Response Types
+export interface DefaultAppSettingsResponse {
+  _id: string;
+  maxRps: number;
+  dailyRequestsLimit: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Admin User Management Types
+export interface AdminUserResponse {
+  _id: string;
+  email: string;
+  isAdmin: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminUsersListResponse {
+  success: boolean;
+  data: {
+    users: AdminUserResponse[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export interface AdminAppsListResponse {
+  success: boolean;
+  data: {
+    apps: AppResponse[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+// Chain List Response
+export interface AdminChainsListResponse {
+  success: boolean;
+  data: ChainResponse[];
+}
+
+// Default App Settings Response
+export interface AdminDefaultSettingsResponse {
+  success: boolean;
+  data: DefaultAppSettingsResponse;
+}
