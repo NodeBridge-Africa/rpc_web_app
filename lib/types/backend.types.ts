@@ -117,10 +117,7 @@ export interface CreateAppResponse {
 
 export interface GetAppResponse {
   success: boolean;
-  data: {
-    message: string;
-    app: AppResponse;
-  };
+  data: AppResponse;
 }
 
 export interface UpdateAppResponse {

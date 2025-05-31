@@ -50,7 +50,6 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -72,7 +71,7 @@ export default function AppDetailsPage() {
   const deleteAppMutation = useDeleteApp();
   const regenerateKeyMutation = useRegenerateApiKey();
 
-  const app = appData?.data?.app;
+  const app = appData?.data;
   const usage = usageData?.data?.analytics;
 
   const copyApiKey = async () => {
@@ -298,8 +297,10 @@ export default function AppDetailsPage() {
                   Hourly Request Distribution
                 </h4>
                 <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={usage.hourlyBreakdown}>
-                    <CartesianGrid strokeDasharray="3 3" />
+                  <BarChart
+                    data={usage.hourlyBreakdown}
+                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                  >
                     <XAxis
                       dataKey="hour"
                       tickFormatter={(hour) => `${hour}:00`}
@@ -386,18 +387,19 @@ export default function AppDetailsPage() {
             <p className="text-sm font-medium mb-2">RPC Endpoint</p>
             <code className="block bg-muted p-3 rounded-md text-sm">
               {`${
-                process.env.NEXT_PUBLIC_BACKEND_API_URL ||
-                "http://localhost:8888"
-              }/${app.chainName}/exec/${app.apiKey || "YOUR_API_KEY"}`}
+                process.env.NEXT_PUBLIC_BACKEND_API_URL
+              }/${app.chainName.toLowerCase()}/exec/${
+                app.apiKey || "YOUR_API_KEY"
+              }`}
             </code>
           </div>
           <div>
             <p className="text-sm font-medium mb-2">Example Request</p>
             <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
               {`curl -X POST \\
-  ${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:8888"}/${
-                app.chainName
-              }/exec/${app.apiKey || "YOUR_API_KEY"} \\
+  ${
+    process.env.NEXT_PUBLIC_BACKEND_API_URL
+  }/${app.chainName.toLowerCase()}/exec/${app.apiKey || "YOUR_API_KEY"} \\
   -H "Content-Type: application/json" \\
   -d '{
     "jsonrpc": "2.0",

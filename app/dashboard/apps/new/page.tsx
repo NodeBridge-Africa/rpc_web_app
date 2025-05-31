@@ -50,12 +50,15 @@ type CreateAppFormData = z.infer<typeof createAppSchema>;
 export default function CreateAppPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [selectedChain, setSelectedChain] = useState<ChainResponse | null>(null);
+  const [selectedChain, setSelectedChain] = useState<ChainResponse | null>(
+    null
+  );
 
   // Fetch available chains
   const { data: chainsData, isLoading: chainsLoading } = useAvailableChains();
 
-  const availableChains = chainsData?.data?.filter(chain => chain.isEnabled) || [];
+  const availableChains =
+    chainsData?.data?.filter((chain) => chain.isEnabled) || [];
 
   const form = useForm<CreateAppFormData>({
     resolver: zodResolver(createAppSchema),
@@ -78,16 +81,21 @@ export default function CreateAppPage() {
       return;
     }
 
-    createAppMutation.mutate({
-      name: data.name,
-      description: data.description,
-      chainName: selectedChain.name,
-      chainId: selectedChain.chainId.toString(),
-    }, {
-      onSuccess: (response) => {
-        router.push(`/dashboard/apps/${response.data.app._id}`);
+    createAppMutation.mutate(
+      {
+        name: data.name,
+        description: data.description,
+        chainName: selectedChain.name,
+        chainId: selectedChain.chainId.toString(),
       },
-    });
+      {
+        onSuccess: (response) => {
+          form.reset();
+          setSelectedChain(null);
+          router.push(`/dashboard/apps/${response.data.app._id}`);
+        },
+      }
+    );
   };
 
   return (

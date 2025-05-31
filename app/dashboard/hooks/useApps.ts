@@ -1,29 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { appUseCase } from "../usecases/app.usecase";
-import {
-  CreateAppRequest,
-  UpdateAppRequest,
-  AppResponse,
-} from "@/lib/types/backend.types";
-
+import { CreateAppRequest, UpdateAppRequest } from "@/lib/types/backend.types";
+import { useRouter } from "next/navigation";
 // Query Keys
 export const APP_KEYS = {
   all: ["apps"] as const,
-  lists: (route?: string) => [...APP_KEYS.all, "list", route] as const,
-  list: (page: number, limit: number, route?: string) =>
-    [...APP_KEYS.lists(route), page, limit] as const,
+  lists: () => [...APP_KEYS.all, "list"] as const,
+  list: (page: number, limit: number) =>
+    [...APP_KEYS.lists(), page, limit] as const,
   details: () => [...APP_KEYS.all, "detail"] as const,
   detail: (id: string) => [...APP_KEYS.details(), id] as const,
-  stats: (route?: string) => [...APP_KEYS.all, "stats", route] as const,
+  stats: () => [...APP_KEYS.all, "stats"] as const,
 };
 
-export const useUserApps = (page: number = 1, limit: number = 10, route?: string) => {
+export const useUserApps = (page: number = 1, limit: number = 10) => {
   return useQuery({
-    queryKey: APP_KEYS.list(page, limit, route),
+    queryKey: APP_KEYS.list(page, limit),
     queryFn: () => appUseCase.getUserApps(page, limit),
-    staleTime: 1000 * 60 * 10, // 10 minutes
-    gcTime: 1000 * 60 * 30, // 30 minutes
   });
 };
 
@@ -35,12 +29,10 @@ export const useUserApp = (appId: string) => {
   });
 };
 
-export const useDashboardStats = (route?: string) => {
+export const useDashboardStats = () => {
   return useQuery({
-    queryKey: APP_KEYS.stats(route),
+    queryKey: APP_KEYS.stats(),
     queryFn: () => appUseCase.getDashboardStats(),
-    staleTime: 1000 * 60 * 10, // 10 minutes
-    gcTime: 1000 * 60 * 30, // 30 minutes
   });
 };
 
@@ -51,6 +43,7 @@ export const useCreateApp = () => {
   return useMutation({
     mutationFn: (appData: CreateAppRequest) => appUseCase.createApp(appData),
     onSuccess: (data) => {
+      window.location.href = `/dashboard/apps/${data.data.app._id}`;
       queryClient.invalidateQueries({ queryKey: APP_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: APP_KEYS.stats() });
       toast({
@@ -159,7 +152,6 @@ export const useAppUsageAnalytics = (appId: string) => {
     queryKey: [...APP_KEYS.detail(appId), "usage"],
     queryFn: () => appUseCase.getAppUsageAnalytics(appId),
     enabled: !!appId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 
@@ -167,6 +159,5 @@ export const useAllAppsUsageAnalytics = () => {
   return useQuery({
     queryKey: [...APP_KEYS.all, "usage", "all"],
     queryFn: () => appUseCase.getAllAppsUsageAnalytics(),
-    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };

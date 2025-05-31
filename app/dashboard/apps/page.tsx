@@ -46,7 +46,7 @@ import { AppResponse } from "@/lib/types/backend.types";
 export default function UserApps() {
   const [page, setPage] = useState(1);
   const limit = 10;
-  const { data, isLoading, error } = useUserApps(page, limit, "apps");
+  const { data, isLoading, error } = useUserApps(page, limit);
   const { mutate: deleteApp, isPending: isDeleting } = useDeleteApp();
 
   const apps = data?.data?.apps || [];
@@ -230,7 +230,7 @@ export default function UserApps() {
 
       {/* Apps Grid */}
       {isLoading ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
+        <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i}>
               <CardHeader>
@@ -278,7 +278,7 @@ export default function UserApps() {
         </Card>
       ) : (
         <>
-          <div className="grid gap-6">
+          <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {apps.map((app) => (
               <AppCard key={app._id} app={app} />
             ))}
