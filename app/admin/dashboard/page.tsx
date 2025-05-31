@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useAdminStats, useNodeHealth } from '@/admin/hooks/useAdminData';
-import { Users, AppWindow, Network, Activity } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAdminStats, useNodeHealth } from "@/app/admin/hooks/useAdminData";
+import { Users, AppWindow, Network, Activity } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function AdminDashboardPage() {
   const { data: stats, isLoading: statsLoading } = useAdminStats();
@@ -12,28 +12,28 @@ export default function AdminDashboardPage() {
 
   const statCards = [
     {
-      title: 'Total Users',
+      title: "Total Users",
       value: stats?.totalUsers || 0,
       icon: Users,
-      color: 'text-blue-600',
+      color: "text-blue-600",
     },
     {
-      title: 'Total Apps',
+      title: "Total Apps",
       value: stats?.totalApps || 0,
       icon: AppWindow,
-      color: 'text-green-600',
+      color: "text-green-600",
     },
     {
-      title: 'Active Chains',
+      title: "Active Chains",
       value: stats?.activeChains || 0,
       icon: Network,
-      color: 'text-purple-600',
+      color: "text-purple-600",
     },
     {
-      title: 'Total Requests',
+      title: "Total Requests",
       value: stats?.totalRequests || 0,
       icon: Activity,
-      color: 'text-orange-600',
+      color: "text-orange-600",
     },
   ];
 
@@ -96,9 +96,9 @@ export default function AdminDashboardPage() {
                         {node.details.execution && (
                           <Badge
                             variant={
-                              node.details.execution.status === 'healthy'
-                                ? 'default'
-                                : 'destructive'
+                              node.details.execution.status === "healthy"
+                                ? "default"
+                                : "destructive"
                             }
                             className="text-xs"
                           >
@@ -108,9 +108,9 @@ export default function AdminDashboardPage() {
                         {node.details.consensus && (
                           <Badge
                             variant={
-                              node.details.consensus.status === 'healthy'
-                                ? 'default'
-                                : 'destructive'
+                              node.details.consensus.status === "healthy"
+                                ? "default"
+                                : "destructive"
                             }
                             className="text-xs"
                           >
@@ -122,11 +122,11 @@ export default function AdminDashboardPage() {
                   </div>
                   <Badge
                     variant={
-                      node.status === 'healthy'
-                        ? 'default'
-                        : node.status === 'unhealthy'
-                        ? 'destructive'
-                        : 'secondary'
+                      node.status === "healthy"
+                        ? "default"
+                        : node.status === "unhealthy"
+                        ? "destructive"
+                        : "secondary"
                     }
                   >
                     {node.status}

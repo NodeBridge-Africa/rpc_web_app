@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Chain } from '@/lib/types/api.types';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Chain } from "@/lib/types/api.types";
 import {
   useAdminChains,
   useCreateChain,
   useUpdateChain,
   useDeleteChain,
-} from '@/admin/hooks/useAdminData';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
+} from "@/app/admin/hooks/useAdminData";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -29,7 +29,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -37,7 +37,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,14 +47,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Plus, Network, Trash2, Edit } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+} from "@/components/ui/alert-dialog";
+import { Plus, Network, Trash2, Edit } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chainSchema = z.object({
-  name: z.string().min(1, 'Chain name is required'),
-  chainId: z.number().min(1, 'Chain ID must be positive'),
-  isActive: z.boolean().default(true),
+  name: z.string().min(1, "Chain name is required"),
+  chainId: z.number().min(1, "Chain ID must be positive"),
+  isEnabled: z.boolean().default(true),
 });
 
 type ChainInput = z.infer<typeof chainSchema>;
@@ -64,16 +64,15 @@ export default function AdminChainsPage() {
   const { mutate: createChain } = useCreateChain();
   const { mutate: updateChain } = useUpdateChain();
   const { mutate: deleteChain } = useDeleteChain();
-  
+
   const [createDialog, setCreateDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState<Chain | null>(null);
-
   const form = useForm<ChainInput>({
     resolver: zodResolver(chainSchema),
     defaultValues: {
-      name: '',
+      name: "",
       chainId: 1,
-      isActive: true,
+      isEnabled: true,
     },
   });
 
@@ -86,7 +85,7 @@ export default function AdminChainsPage() {
   const handleToggleActive = (chain: Chain) => {
     updateChain({
       chainId: chain._id,
-      updates: { isActive: !chain.isActive },
+      updates: { isEnabled: !chain.isEnabled },
     });
   };
 
@@ -130,10 +129,8 @@ export default function AdminChainsPage() {
                     <Network className="h-5 w-5" />
                     {chain.name}
                   </CardTitle>
-                  <Badge
-                    variant={chain.isActive ? 'default' : 'secondary'}
-                  >
-                    {chain.isActive ? 'Active' : 'Inactive'}
+                  <Badge variant={chain.isEnabled ? "default" : "secondary"}>
+                    {chain.isEnabled ? "Active" : "Inactive"}
                   </Badge>
                 </div>
                 <CardDescription>Chain ID: {chain.chainId}</CardDescription>
@@ -142,11 +139,11 @@ export default function AdminChainsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Switch
-                      checked={chain.isActive}
+                      checked={chain.isEnabled}
                       onCheckedChange={() => handleToggleActive(chain)}
                     />
                     <span className="text-sm text-muted-foreground">
-                      {chain.isActive ? 'Enabled' : 'Disabled'}
+                      {chain.isEnabled ? "Enabled" : "Disabled"}
                     </span>
                   </div>
                   <Button
@@ -226,7 +223,7 @@ export default function AdminChainsPage() {
               />
               <FormField
                 control={form.control}
-                name="isActive"
+                name="isEnabled"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">

@@ -70,32 +70,35 @@ export interface AdminSuccessResponse {
 
 // Node Health Response Types (matching backend controller response)
 export interface NodeHealthResponse {
-  chain: string;
-  timestamp: string;
-  execution: {
-    status: 'healthy' | 'unhealthy';
-    syncing: boolean;
-    synced: boolean;
-    error?: string;
+  success: boolean;
+  data: {
+    chain: string;
+    timestamp: string;
+    execution: {
+      status: "healthy" | "unhealthy";
+      syncing: boolean;
+      synced: boolean;
+      error?: string;
+    };
+    consensus: {
+      status: "healthy" | "unhealthy";
+      syncing: boolean;
+      synced: boolean;
+      progress?: number;
+      error?: string;
+    };
+    prometheus?: {
+      availableNodes: number;
+      totalNodes: number;
+      nodes: Array<{
+        nodeIndex: number;
+        nodeUrl: string;
+        status: "available" | "unavailable";
+        error?: string | null;
+      }>;
+    };
+    overallStatus: "healthy" | "degraded" | "unhealthy";
   };
-  consensus: {
-    status: 'healthy' | 'unhealthy';
-    syncing: boolean;
-    synced: boolean;
-    progress?: number;
-    error?: string;
-  };
-  prometheus?: {
-    availableNodes: number;
-    totalNodes: number;
-    nodes: Array<{
-      nodeIndex: number;
-      nodeUrl: string;
-      status: 'available' | 'unavailable';
-      error?: string | null;
-    }>;
-  };
-  overallStatus: 'healthy' | 'degraded' | 'unhealthy';
 }
 
 // App Response Types (from app.controller.ts)

@@ -1,34 +1,32 @@
-'use client';
+"use client";
 
-import { useNodeHealth } from '@/admin/hooks/useAdminData';
+import { useNodeHealth } from "@/app/admin/hooks/useAdminData";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Activity,
   CheckCircle,
   XCircle,
   AlertCircle,
-  Clock,
   Cpu,
   Database,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function AdminNodeHealthPage() {
   const { data: nodeHealth, isLoading } = useNodeHealth();
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'healthy':
+      case "healthy":
         return <CheckCircle className="h-5 w-5 text-green-600" />;
-      case 'unhealthy':
+      case "unhealthy":
         return <XCircle className="h-5 w-5 text-red-600" />;
       default:
         return <AlertCircle className="h-5 w-5 text-yellow-600" />;
@@ -37,20 +35,20 @@ export default function AdminNodeHealthPage() {
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'healthy':
-        return 'default' as const;
-      case 'unhealthy':
-        return 'destructive' as const;
+      case "healthy":
+        return "default" as const;
+      case "unhealthy":
+        return "destructive" as const;
       default:
-        return 'secondary' as const;
+        return "secondary" as const;
     }
   };
 
   const getLatencyColor = (latency?: number) => {
-    if (!latency) return 'text-muted-foreground';
-    if (latency < 100) return 'text-green-600';
-    if (latency < 500) return 'text-yellow-600';
-    return 'text-red-600';
+    if (!latency) return "text-muted-foreground";
+    if (latency < 100) return "text-green-600";
+    if (latency < 500) return "text-yellow-600";
+    return "text-red-600";
   };
 
   return (

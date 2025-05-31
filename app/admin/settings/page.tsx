@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   useDefaultSettings,
   useUpdateDefaultSettings,
-} from '@/admin/hooks/useAdminData';
-import { Button } from '@/components/ui/button';
+} from "@/app/admin/hooks/useAdminData";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -23,17 +23,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Settings, Save } from 'lucide-react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Settings, Save } from "lucide-react";
 
 const settingsSchema = z.object({
-  maxRps: z.number().min(1, 'Must be at least 1').max(1000, 'Must be at most 1000'),
+  maxRps: z
+    .number()
+    .min(1, "Must be at least 1")
+    .max(1000, "Must be at most 1000"),
   dailyRequestsLimit: z
     .number()
-    .min(1000, 'Must be at least 1000')
-    .max(10000000, 'Must be at most 10,000,000'),
+    .min(1000, "Must be at least 1000")
+    .max(10000000, "Must be at most 10,000,000"),
 });
 
 type SettingsInput = z.infer<typeof settingsSchema>;
@@ -45,8 +48,8 @@ export default function AdminSettingsPage() {
   const form = useForm<SettingsInput>({
     resolver: zodResolver(settingsSchema),
     defaultValues: {
-      maxRps: settings?.maxRps || 10,
-      dailyRequestsLimit: settings?.dailyRequestsLimit || 10000,
+      maxRps: settings?.maxRps || 0,
+      dailyRequestsLimit: settings?.dailyRequestsLimit || 0,
     },
     values: settings
       ? {
@@ -57,6 +60,7 @@ export default function AdminSettingsPage() {
   });
 
   const onSubmit = (data: SettingsInput) => {
+    console.log("Submitting settings:", data);
     updateSettings(data);
   };
 
@@ -149,7 +153,7 @@ export default function AdminSettingsPage() {
                 />
                 <Button type="submit" disabled={isPending}>
                   <Save className="mr-2 h-4 w-4" />
-                  {isPending ? 'Saving...' : 'Save Settings'}
+                  {isPending ? "Saving..." : "Save Settings"}
                 </Button>
               </form>
             </Form>
@@ -168,15 +172,11 @@ export default function AdminSettingsPage() {
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center justify-between py-2">
-              <span className="text-sm text-muted-foreground">
-                API Version
-              </span>
+              <span className="text-sm text-muted-foreground">API Version</span>
               <span className="text-sm font-medium">v1.0.0</span>
             </div>
             <div className="flex items-center justify-between py-2">
-              <span className="text-sm text-muted-foreground">
-                Environment
-              </span>
+              <span className="text-sm text-muted-foreground">Environment</span>
               <span className="text-sm font-medium">Production</span>
             </div>
             <div className="flex items-center justify-between py-2">
@@ -186,7 +186,7 @@ export default function AdminSettingsPage() {
               <span className="text-sm font-medium">
                 {settings?.updatedAt
                   ? new Date(settings.updatedAt).toLocaleString()
-                  : 'N/A'}
+                  : "N/A"}
               </span>
             </div>
           </div>

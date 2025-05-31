@@ -15,7 +15,6 @@ import {
   UpdateDefaultSettingsRequest,
 } from "@/lib/types/api.types";
 import {
-  AdminSuccessResponse,
   AdminUsersListResponse,
   AdminAppsListResponse,
   AdminChainsListResponse,
@@ -34,20 +33,13 @@ export const adminUseCase = {
       { params: params || {} }
     );
 
-    if (!data.success || !data.data) {
+    if (!data.success) {
       throw new Error("Failed to fetch users");
     }
 
     // Transform backend response to frontend types
     return {
-      users: data.data.users.map((user) => ({
-        _id: user._id,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        isActive: user.isActive,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      })),
+      users: data.data.users,
       total: data.data.total,
     };
   },
@@ -57,7 +49,7 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.USER_BY_ID(userId)
     );
 
-    if (data.status !== "success" || !data.data) {
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to fetch user");
     }
 
@@ -70,7 +62,8 @@ export const adminUseCase = {
       updates
     );
 
-    if (data.status !== "success" || !data.data) {
+    console.log(data);
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to update user");
     }
 
@@ -83,7 +76,7 @@ export const adminUseCase = {
       { maxApps }
     );
 
-    if (data.status !== "success") {
+    if (!data.success) {
       throw new Error(data.error || "Failed to update user app limits");
     }
   },
@@ -105,21 +98,7 @@ export const adminUseCase = {
 
     // Transform backend response to frontend types
     return {
-      apps: data.data.apps.map((app) => ({
-        _id: app._id,
-        userId: app.userId,
-        name: app.name,
-        apiKey: app.apiKey,
-        chainName: app.chainName,
-        isActive: app.isActive,
-        requests: app.requests,
-        dailyRequests: app.dailyRequests,
-        maxRps: app.maxRps,
-        dailyRequestsLimit: app.dailyRequestsLimit,
-        lastResetDate: app.lastResetDate,
-        createdAt: app.createdAt,
-        updatedAt: app.updatedAt,
-      })),
+      apps: data.data.apps,
       total: data.data.total,
     };
   },
@@ -129,7 +108,7 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.APP_BY_ID(appId)
     );
 
-    if (data.status !== "success" || !data.data) {
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to fetch app");
     }
 
@@ -142,7 +121,7 @@ export const adminUseCase = {
       updates
     );
 
-    if (data.status !== "success" || !data.data) {
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to update app");
     }
 
@@ -154,20 +133,10 @@ export const adminUseCase = {
     const { data } = await axiosInstance.get<AdminChainsListResponse>(
       API_ROUTES.ADMIN.CHAINS
     );
-
-    if (!data.success || !data.data) {
+    if (!data.success) {
       throw new Error("Failed to fetch chains");
     }
-
-    // Transform backend response to frontend types
-    return data.data.map((chain) => ({
-      _id: chain._id,
-      name: chain.name,
-      chainId: chain.chainId,
-      isActive: chain.isEnabled, // Backend uses 'isEnabled', frontend uses 'isActive'
-      createdAt: chain.createdAt,
-      updatedAt: chain.updatedAt,
-    }));
+    return data.data;
   },
 
   async getChainById(chainId: string): Promise<Chain> {
@@ -175,7 +144,7 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.CHAIN_BY_ID(chainId)
     );
 
-    if (data.status !== "success" || !data.data) {
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to fetch chain");
     }
 
@@ -188,7 +157,7 @@ export const adminUseCase = {
       chain
     );
 
-    if (data.status !== "success" || !data.data) {
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to create chain");
     }
 
@@ -204,7 +173,7 @@ export const adminUseCase = {
       updates
     );
 
-    if (data.status !== "success" || !data.data) {
+    if (!data.success || !data.data) {
       throw new Error(data.error || "Failed to update chain");
     }
 
@@ -216,7 +185,7 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.CHAIN_BY_ID(chainId)
     );
 
-    if (data.status !== "success") {
+    if (!data.success) {
       throw new Error(data.error || "Failed to delete chain");
     }
   },
@@ -224,11 +193,11 @@ export const adminUseCase = {
   // Node Health
   async getNodeHealth(): Promise<NodeHealth[]> {
     // Get all chains first, then fetch health for each
-    const chains = await this.getChains();
+    const chains = await adminUseCase.getChains();
 
     const healthPromises = chains.map(async (chain) => {
       try {
-        return await this.getNodeHealthByChain(chain.name);
+        return await adminUseCase.getNodeHealthByChain(chain.name);
       } catch (error) {
         // If health check fails, return unhealthy status
         return {
@@ -259,23 +228,25 @@ export const adminUseCase = {
     // Backend returns node health data directly (not wrapped in success/data structure)
     // Transform backend response to frontend types
     return {
-      chain: data.chain,
-      status: data.overallStatus,
+      chain: data.data.chain,
+      status: data.data.overallStatus,
       details: {
         execution: {
-          status: data.execution.status,
+          status: data.data.execution.status,
           latency: undefined, // Backend doesn't provide latency in this format
-          error: data.execution.error,
+          error: data.data.execution.error,
         },
         consensus: {
-          status: data.consensus.status,
+          status: data.data.consensus.status,
           latency: undefined, // Backend doesn't provide latency in this format
-          error: data.consensus.error,
+          error: data.data.consensus.error,
         },
-        prometheus: data.prometheus
+        prometheus: data.data.prometheus
           ? {
               status:
-                data.prometheus.availableNodes > 0 ? "healthy" : "unhealthy",
+                data.data.prometheus.availableNodes > 0
+                  ? "healthy"
+                  : "unhealthy",
               latency: undefined, // Backend doesn't provide latency in this format
             }
           : undefined,
@@ -289,7 +260,7 @@ export const adminUseCase = {
       API_ROUTES.ADMIN.DEFAULT_SETTINGS
     );
 
-    if (!data.success || !data.data) {
+    if (!data.data) {
       throw new Error("Failed to fetch default settings");
     }
 
@@ -316,15 +287,15 @@ export const adminUseCase = {
     // This would need to be implemented on the backend
     // For now, we'll aggregate from other endpoints
     const [users, apps, chains] = await Promise.all([
-      this.getUsers({ limit: 1 }),
-      this.getApps({ limit: 1 }),
-      this.getChains(),
+      adminUseCase.getUsers({ limit: 1 }),
+      adminUseCase.getApps({ limit: 1 }),
+      adminUseCase.getChains(),
     ]);
 
     return {
       totalUsers: users.total,
       totalApps: apps.total,
-      activeChains: chains.filter((c) => c.isActive).length,
+      activeChains: chains.filter((c) => c.isEnabled).length,
       totalRequests: 0, // Would need backend implementation
     };
   },

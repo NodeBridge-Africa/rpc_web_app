@@ -1,7 +1,7 @@
 // API Response Types
 export interface ApiResponse<T = any> {
   success?: boolean;
-  status?: 'success' | 'error';
+  status?: "success" | "error";
   data?: T;
   message?: string;
   error?: string;
@@ -54,7 +54,7 @@ export interface Chain {
   _id: string;
   name: string;
   chainId: number;
-  isActive: boolean;
+  isEnabled: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -62,7 +62,7 @@ export interface Chain {
 // Admin Types
 export interface NodeHealth {
   chain: string;
-  status: 'healthy' | 'unhealthy' | 'degraded' | 'unknown';
+  status: "healthy" | "unhealthy" | "degraded" | "unknown";
   details: {
     execution?: {
       status: string;
@@ -112,11 +112,11 @@ export interface UpdateAppRequest {
 export interface CreateChainRequest {
   name: string;
   chainId: number;
-  isActive: boolean;
+  isEnabled: boolean;
 }
 
 export interface UpdateChainRequest {
-  isActive?: boolean;
+  isEnabled?: boolean;
 }
 
 export interface UpdateDefaultSettingsRequest {

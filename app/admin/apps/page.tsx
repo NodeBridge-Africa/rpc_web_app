@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import { App } from '@/lib/types/api.types';
-import { DataTable } from '@/admin/components/DataTable';
-import { useAdminApps, useUpdateApp } from '@/admin/hooks/useAdminData';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { App } from "@/lib/types/api.types";
+import { DataTable } from "@/app/admin/components/DataTable";
+import { useAdminApps, useUpdateApp } from "@/app/admin/hooks/useAdminData";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,9 +25,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Settings, Copy, CheckCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Settings, Copy, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminAppsPage() {
   const [page] = useState(1);
@@ -49,8 +49,8 @@ export default function AdminAppsPage() {
     await navigator.clipboard.writeText(apiKey);
     setCopiedId(apiKey);
     toast({
-      title: 'API Key copied',
-      description: 'The API key has been copied to your clipboard.',
+      title: "API Key copied",
+      description: "The API key has been copied to your clipboard.",
     });
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -75,24 +75,24 @@ export default function AdminAppsPage() {
 
   const columns: ColumnDef<App>[] = [
     {
-      accessorKey: 'name',
-      header: 'Name',
+      accessorKey: "name",
+      header: "Name",
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue('name')}</div>
+        <div className="font-medium">{row.getValue("name")}</div>
       ),
     },
     {
-      accessorKey: 'chainName',
-      header: 'Chain',
+      accessorKey: "chainName",
+      header: "Chain",
       cell: ({ row }) => (
-        <Badge variant="outline">{row.getValue('chainName')}</Badge>
+        <Badge variant="outline">{row.getValue("chainName")}</Badge>
       ),
     },
     {
-      accessorKey: 'apiKey',
-      header: 'API Key',
+      accessorKey: "apiKey",
+      header: "API Key",
       cell: ({ row }) => {
-        const apiKey = row.getValue('apiKey') as string;
+        const apiKey = row.getValue("apiKey") as string;
         const iscopied = copiedId === apiKey;
         return (
           <div className="flex items-center gap-2">
@@ -116,24 +116,24 @@ export default function AdminAppsPage() {
       },
     },
     {
-      accessorKey: 'isActive',
-      header: 'Status',
+      accessorKey: "isActive",
+      header: "Status",
       cell: ({ row }) => (
-        <Badge variant={row.getValue('isActive') ? 'default' : 'secondary'}>
-          {row.getValue('isActive') ? 'Active' : 'Inactive'}
+        <Badge variant={row.getValue("isActive") ? "default" : "secondary"}>
+          {row.getValue("isActive") ? "Active" : "Inactive"}
         </Badge>
       ),
     },
     {
-      accessorKey: 'dailyRequests',
-      header: 'Daily Usage',
+      accessorKey: "dailyRequests",
+      header: "Daily Usage",
       cell: ({ row }) => {
         const app = row.original;
         const percentage = (app.dailyRequests / app.dailyRequestsLimit) * 100;
         return (
           <div className="space-y-1">
             <div className="text-sm">
-              {app.dailyRequests.toLocaleString()} /{' '}
+              {app.dailyRequests.toLocaleString()} /{" "}
               {app.dailyRequestsLimit.toLocaleString()}
             </div>
             <div className="w-full bg-muted rounded-full h-2">
@@ -147,13 +147,13 @@ export default function AdminAppsPage() {
       },
     },
     {
-      accessorKey: 'maxRps',
-      header: 'Rate Limit',
-      cell: ({ row }) => <div>{row.getValue('maxRps')} RPS</div>,
+      accessorKey: "maxRps",
+      header: "Rate Limit",
+      cell: ({ row }) => <div>{row.getValue("maxRps")} RPS</div>,
     },
     {
-      id: 'actions',
-      header: 'Actions',
+      id: "actions",
+      header: "Actions",
       cell: ({ row }) => {
         const app = row.original;
 
@@ -180,7 +180,7 @@ export default function AdminAppsPage() {
                   })
                 }
               >
-                {app.isActive ? 'Deactivate' : 'Activate'} App
+                {app.isActive ? "Deactivate" : "Activate"} App
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -249,7 +249,10 @@ export default function AdminAppsPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditDialog({ open: false })}>
+            <Button
+              variant="outline"
+              onClick={() => setEditDialog({ open: false })}
+            >
               Cancel
             </Button>
             <Button onClick={handleUpdateApp}>Save Changes</Button>

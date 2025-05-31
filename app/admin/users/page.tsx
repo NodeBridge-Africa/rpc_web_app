@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import { User } from '@/lib/types/api.types';
-import { DataTable } from '@/admin/components/DataTable';
-import { useAdminUsers, useUpdateUser } from '@/admin/hooks/useAdminData';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
+import { useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { User } from "@/lib/types/api.types";
+import { DataTable } from "@/app/admin/components/DataTable";
+import { useAdminUsers, useUpdateUser } from "@/app/admin/hooks/useAdminData";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +16,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Shield, UserCog } from 'lucide-react';
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Shield, UserCog } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 export default function AdminUsersPage() {
   const [page] = useState(1);
@@ -37,7 +37,7 @@ export default function AdminUsersPage() {
   const [confirmDialog, setConfirmDialog] = useState<{
     open: boolean;
     user?: User;
-    action?: 'toggleActive' | 'toggleAdmin';
+    action?: "toggleActive" | "toggleAdmin";
   }>({ open: false });
 
   const handleToggleActive = (user: User) => {
@@ -56,42 +56,42 @@ export default function AdminUsersPage() {
 
   const columns: ColumnDef<User>[] = [
     {
-      accessorKey: 'email',
-      header: 'Email',
+      accessorKey: "email",
+      header: "Email",
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue('email')}</div>
+        <div className="font-medium">{row.getValue("email")}</div>
       ),
     },
     {
-      accessorKey: 'isActive',
-      header: 'Status',
+      accessorKey: "isActive",
+      header: "Status",
       cell: ({ row }) => (
-        <Badge variant={row.getValue('isActive') ? 'default' : 'secondary'}>
-          {row.getValue('isActive') ? 'Active' : 'Inactive'}
+        <Badge variant={row.getValue("isActive") ? "default" : "secondary"}>
+          {row.getValue("isActive") ? "Active" : "Inactive"}
         </Badge>
       ),
     },
     {
-      accessorKey: 'isAdmin',
-      header: 'Role',
+      accessorKey: "isAdmin",
+      header: "Role",
       cell: ({ row }) => (
-        <Badge variant={row.getValue('isAdmin') ? 'destructive' : 'outline'}>
-          {row.getValue('isAdmin') ? 'Admin' : 'User'}
+        <Badge variant={row.getValue("isAdmin") ? "destructive" : "outline"}>
+          {row.getValue("isAdmin") ? "Admin" : "User"}
         </Badge>
       ),
     },
     {
-      accessorKey: 'createdAt',
-      header: 'Created',
+      accessorKey: "createdAt",
+      header: "Created",
       cell: ({ row }) => (
         <div className="text-muted-foreground">
-          {format(new Date(row.getValue('createdAt')), 'MMM d, yyyy')}
+          {format(new Date(row.getValue("createdAt")), "MMM d, yyyy")}
         </div>
       ),
     },
     {
-      id: 'actions',
-      header: 'Actions',
+      id: "actions",
+      header: "Actions",
       cell: ({ row }) => {
         const user = row.original;
 
@@ -110,12 +110,12 @@ export default function AdminUsersPage() {
                   setConfirmDialog({
                     open: true,
                     user,
-                    action: 'toggleActive',
+                    action: "toggleActive",
                   })
                 }
               >
                 <UserCog className="mr-2 h-4 w-4" />
-                {user.isActive ? 'Deactivate' : 'Activate'} User
+                {user.isActive ? "Deactivate" : "Activate"} User
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -123,12 +123,12 @@ export default function AdminUsersPage() {
                   setConfirmDialog({
                     open: true,
                     user,
-                    action: 'toggleAdmin',
+                    action: "toggleAdmin",
                   })
                 }
               >
                 <Shield className="mr-2 h-4 w-4" />
-                {user.isAdmin ? 'Remove' : 'Grant'} Admin
+                {user.isAdmin ? "Remove" : "Grant"} Admin
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -163,21 +163,21 @@ export default function AdminUsersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Action</AlertDialogTitle>
             <AlertDialogDescription>
-              {confirmDialog.action === 'toggleActive' && (
+              {confirmDialog.action === "toggleActive" && (
                 <>
-                  Are you sure you want to{' '}
-                  {confirmDialog.user?.isActive ? 'deactivate' : 'activate'}{' '}
-                  this user? They will{' '}
+                  Are you sure you want to{" "}
+                  {confirmDialog.user?.isActive ? "deactivate" : "activate"}{" "}
+                  this user? They will{" "}
                   {confirmDialog.user?.isActive
-                    ? 'lose access to their account'
-                    : 'regain access to their account'}
+                    ? "lose access to their account"
+                    : "regain access to their account"}
                   .
                 </>
               )}
-              {confirmDialog.action === 'toggleAdmin' && (
+              {confirmDialog.action === "toggleAdmin" && (
                 <>
-                  Are you sure you want to{' '}
-                  {confirmDialog.user?.isAdmin ? 'remove' : 'grant'} admin
+                  Are you sure you want to{" "}
+                  {confirmDialog.user?.isAdmin ? "remove" : "grant"} admin
                   privileges for this user?
                 </>
               )}
@@ -188,9 +188,9 @@ export default function AdminUsersPage() {
             <AlertDialogAction
               onClick={() => {
                 if (confirmDialog.user && confirmDialog.action) {
-                  if (confirmDialog.action === 'toggleActive') {
+                  if (confirmDialog.action === "toggleActive") {
                     handleToggleActive(confirmDialog.user);
-                  } else if (confirmDialog.action === 'toggleAdmin') {
+                  } else if (confirmDialog.action === "toggleAdmin") {
                     handleToggleAdmin(confirmDialog.user);
                   }
                 }
