@@ -20,6 +20,8 @@ export function ProtectedRoute({
   const user = session?.user;
 
   useEffect(() => {
+    if (status === "loading") return; // Don't do anything while loading
+    
     if (status === "unauthenticated") {
       router.push("/auth/login");
     } else if (status === "authenticated" && user) {
@@ -31,7 +33,19 @@ export function ProtectedRoute({
     }
   }, [status, user, requireAdmin, router]);
 
-  if (isLoading || !user) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated") {
+    return null; // Return null while redirecting
+  }
+
+  if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loading />

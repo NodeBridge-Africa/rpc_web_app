@@ -248,6 +248,122 @@ export interface AdminChainsListResponse {
   data: ChainResponse[];
 }
 
+// Auth Account Management Types
+export interface UpdatePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface UpdateEmailRequest {
+  email: string;
+  password: string;
+}
+
+export interface UpdatePasswordResponse {
+  success: boolean;
+  data: {
+    message: string;
+  };
+}
+
+export interface UpdateEmailResponse {
+  success: boolean;
+  data: {
+    message: string;
+    user: {
+      id: string;
+      email: string;
+      isActive: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+}
+
+export interface ExportDataResponse {
+  success: boolean;
+  data: {
+    user: {
+      id: string;
+      email: string;
+      isActive: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+    apps: Array<{
+      id: string;
+      name: string;
+      description?: string;
+      chainName: string;
+      chainId: string;
+      isActive: boolean;
+      requests: number;
+      dailyRequests: number;
+      maxRps: number;
+      dailyRequestsLimit: number;
+      createdAt: string;
+      updatedAt: string;
+    }>;
+    exportDate: string;
+  };
+}
+
+// Usage Analytics Types
+export interface HourlyData {
+  hour: number;
+  requests: number;
+}
+
+export interface AppUsageAnalyticsResponse {
+  success: boolean;
+  data: {
+    message: string;
+    analytics: {
+      app: {
+        id: string;
+        name: string;
+        chainName: string;
+      };
+      usage: {
+        totalRequests: number;
+        dailyRequests: number;
+        dailyLimit: number;
+        usagePercentage: number;
+        maxRps: number;
+        lastResetDate: string;
+      };
+      hourlyBreakdown: HourlyData[];
+    };
+  };
+}
+
+export interface AppUsageSummary {
+  id: string;
+  name: string;
+  chainName: string;
+  totalRequests: number;
+  dailyRequests: number;
+  dailyLimit: number;
+  usagePercentage: number;
+  isActive: boolean;
+}
+
+export interface AllAppsUsageAnalyticsResponse {
+  success: boolean;
+  data: {
+    message: string;
+    analytics: {
+      summary: {
+        totalApps: number;
+        activeApps: number;
+        totalRequests: number;
+        dailyRequests: number;
+      };
+      apps: AppUsageSummary[];
+    };
+  };
+}
+
 // Default App Settings Response
 export interface AdminDefaultSettingsResponse {
   success: boolean;

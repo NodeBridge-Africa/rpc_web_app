@@ -1,6 +1,6 @@
 // API Routes Configuration
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8888";
+  process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:8888";
 
 export const API_ROUTES = {
   // Auth Routes
@@ -9,6 +9,9 @@ export const API_ROUTES = {
     REGISTER: "/auth/register",
     LOGOUT: "/auth/logout",
     ME: "/auth/me",
+    UPDATE_PASSWORD: "/auth/password",
+    UPDATE_EMAIL: "/auth/email",
+    EXPORT_DATA: "/auth/export",
   },
 
   // App Routes
@@ -17,6 +20,8 @@ export const API_ROUTES = {
     CREATE: "/apps",
     LIST: "/apps",
     REGENERATE_KEY: (appId: string) => `/apps/${appId}/regenerate-key`,
+    APP_USAGE: (appId: string) => `/apps/${appId}/usage`,
+    ALL_USAGE: "/apps/usage/all",
   },
 
   // Admin Routes

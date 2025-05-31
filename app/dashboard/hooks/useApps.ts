@@ -153,3 +153,20 @@ export const useRegenerateApiKey = () => {
     },
   });
 };
+
+export const useAppUsageAnalytics = (appId: string) => {
+  return useQuery({
+    queryKey: [...APP_KEYS.detail(appId), "usage"],
+    queryFn: () => appUseCase.getAppUsageAnalytics(appId),
+    enabled: !!appId,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
+
+export const useAllAppsUsageAnalytics = () => {
+  return useQuery({
+    queryKey: [...APP_KEYS.all, "usage", "all"],
+    queryFn: () => appUseCase.getAllAppsUsageAnalytics(),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};

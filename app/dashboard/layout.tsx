@@ -24,6 +24,7 @@ import {
   LogOut,
   Menu,
   X,
+  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
@@ -42,6 +43,12 @@ const navigation = [
     href: "/dashboard",
   },
   { name: "My Apps", value: "apps", icon: AppWindow, href: "/dashboard/apps" },
+  {
+    name: "Usage",
+    value: "usage",
+    icon: BarChart3,
+    href: "/dashboard/usage",
+  },
   {
     name: "Settings",
     value: "settings",

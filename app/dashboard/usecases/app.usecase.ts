@@ -10,6 +10,8 @@ import {
   CreateAppRequest,
   UpdateAppRequest,
   DashboardStatsResponse,
+  AppUsageAnalyticsResponse,
+  AllAppsUsageAnalyticsResponse,
 } from '@/lib/types/backend.types';
 
 export class AppUseCase {
@@ -81,6 +83,26 @@ export class AppUseCase {
   async getDashboardStats(): Promise<DashboardStatsResponse> {
     const response = await axiosInstance.get<DashboardStatsResponse>(
       `${API_ROUTES.APPS.BASE}/dashboard/stats`
+    );
+    return response.data;
+  }
+
+  /**
+   * Get detailed usage analytics for a specific app
+   */
+  async getAppUsageAnalytics(appId: string): Promise<AppUsageAnalyticsResponse> {
+    const response = await axiosInstance.get<AppUsageAnalyticsResponse>(
+      API_ROUTES.APPS.APP_USAGE(appId)
+    );
+    return response.data;
+  }
+
+  /**
+   * Get aggregated usage analytics for all user's apps
+   */
+  async getAllAppsUsageAnalytics(): Promise<AllAppsUsageAnalyticsResponse> {
+    const response = await axiosInstance.get<AllAppsUsageAnalyticsResponse>(
+      API_ROUTES.APPS.ALL_USAGE
     );
     return response.data;
   }
