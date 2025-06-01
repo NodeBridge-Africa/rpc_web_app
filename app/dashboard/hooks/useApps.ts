@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { appUseCase } from "../usecases/app.usecase";
 import { CreateAppRequest, UpdateAppRequest } from "@/lib/types/backend.types";
-import { useRouter } from "next/navigation";
 // Query Keys
 export const APP_KEYS = {
   all: ["apps"] as const,
@@ -43,7 +42,6 @@ export const useCreateApp = () => {
   return useMutation({
     mutationFn: (appData: CreateAppRequest) => appUseCase.createApp(appData),
     onSuccess: (data) => {
-      window.location.href = `/dashboard/apps/${data.data._id}`;
       queryClient.invalidateQueries({ queryKey: APP_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: APP_KEYS.stats() });
       toast({
@@ -52,7 +50,6 @@ export const useCreateApp = () => {
       });
     },
     onError: (error) => {
-      console.log("error", error);
       toast({
         title: "Error",
         description:

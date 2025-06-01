@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
+const COLORS = ["#10b981", "#34d399", "#6ee7b7", "#a7f3d0", "#d1fae5"];
 
 export default function UsageAnalyticsPage() {
   const { data, isLoading, error } = useAllAppsUsageAnalytics();
@@ -225,7 +225,7 @@ export default function UsageAnalyticsPage() {
                       <XAxis dataKey="name" />
                       <YAxis />
                       <Tooltip />
-                      <Bar dataKey="requests" fill="#8884d8" />
+                      <Bar dataKey="requests" fill="#10b981" />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -254,8 +254,9 @@ export default function UsageAnalyticsPage() {
                           `${name} ${(percent * 100).toFixed(0)}%`
                         }
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="#10b981"
                         dataKey="value"
+                        stroke="none"
                       >
                         {chainDistribution.map((entry, index) => (
                           <Cell
@@ -329,7 +330,7 @@ export default function UsageAnalyticsPage() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                         <div
-                          className="bg-blue-600 h-2 rounded-full"
+                          className="bg-green-500 h-2 rounded-full"
                           style={{ width: `${app.usagePercentage}%` }}
                         ></div>
                       </div>
