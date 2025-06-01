@@ -65,10 +65,7 @@ const navItems = [
     title: "Blog",
     href: "/blog",
   },
-  {
-    title: "Workshops",
-    href: "/blog",
-  },
+
   {
     title: "Community",
     href: "#",

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import {
   code_of_conduct_link,
+  community_link,
   disclaimer_link,
   support_link,
 } from "@/constant";
@@ -164,8 +165,11 @@ export default function PrivacyContent() {
             <h3 className="font-semibold text-xl mb-2">10. Your Rights</h3>
             <p>
               You have the right to access, correct, or delete your personal
-              information. Contact us at support@nodebridge.africa for any
-              privacy-related requests.
+              information. Contact us{" "}
+              <a href={community_link} className="text-[#10B981] underline">
+                via telegram{" "}
+              </a>{" "}
+              for any privacy-related requests.
             </p>
           </div>
           <div>
@@ -175,7 +179,11 @@ export default function PrivacyContent() {
             <p>
               We are committed to transparency and community support. For
               questions about privacy, donations, volunteering, or sponsorship,
-              please contact us at support@nodebridge.africa. See our{" "}
+              please contact us{" "}
+              <a href={community_link} className="text-[#10B981] underline">
+                via telegram{" "}
+              </a>{" "}
+              . See our{" "}
               <a href={support_link} className="text-[#10B981] underline">
                 Support Nodebridge Africa
               </a>{" "}
