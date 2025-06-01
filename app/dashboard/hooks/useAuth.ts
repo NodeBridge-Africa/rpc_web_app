@@ -10,11 +10,12 @@ export const useUpdatePassword = () => {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: (data: UpdatePasswordRequest) => authUseCase.updatePassword(data),
+    mutationFn: (data: UpdatePasswordRequest) =>
+      authUseCase.updatePassword(data),
     onSuccess: (data) => {
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message,
       });
     },
     onError: (error) => {
@@ -36,7 +37,7 @@ export const useUpdateEmail = () => {
     onSuccess: (data) => {
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message,
       });
     },
     onError: (error) => {
@@ -62,7 +63,9 @@ export const useExportData = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `nodebridge-export-${new Date().toISOString().split("T")[0]}.json`;
+      a.download = `nodebridge-export-${
+        new Date().toISOString().split("T")[0]
+      }.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

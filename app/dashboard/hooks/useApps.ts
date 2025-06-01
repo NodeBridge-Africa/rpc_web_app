@@ -43,15 +43,16 @@ export const useCreateApp = () => {
   return useMutation({
     mutationFn: (appData: CreateAppRequest) => appUseCase.createApp(appData),
     onSuccess: (data) => {
-      window.location.href = `/dashboard/apps/${data.data.app._id}`;
+      window.location.href = `/dashboard/apps/${data.data._id}`;
       queryClient.invalidateQueries({ queryKey: APP_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: APP_KEYS.stats() });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message || "App created successfully",
       });
     },
     onError: (error) => {
+      console.log("error", error);
       toast({
         title: "Error",
         description:
@@ -81,7 +82,7 @@ export const useUpdateApp = () => {
       });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message,
       });
     },
     onError: (error) => {
@@ -107,7 +108,7 @@ export const useDeleteApp = () => {
       queryClient.removeQueries({ queryKey: APP_KEYS.detail(appId) });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message || "App deleted successfully",
       });
     },
     onError: (error) => {
@@ -131,7 +132,7 @@ export const useRegenerateApiKey = () => {
       queryClient.invalidateQueries({ queryKey: APP_KEYS.detail(appId) });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message,
       });
     },
     onError: (error) => {
