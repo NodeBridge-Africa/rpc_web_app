@@ -80,7 +80,7 @@ export default function Hero() {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="min-w-[200px]">
-                  Book a demo
+                  <Link href="/auth/register">Book a demo</Link>
                 </Button>
               </div>
 
