@@ -21,7 +21,6 @@ import {
   Book,
   Users,
   Menu,
-  X,
 } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,34 +33,33 @@ const navItems = [
     items: [
       {
         title: "RPC Endpoints",
-        href: "#",
+        href: "/#",
         description: "Connect to our high-performance blockchain endpoints",
         icon: <Zap className="h-5 w-5 text-emerald-400" />,
       },
       {
         title: "Node Hosting",
-        href: "#networks",
+        href: "/#networks",
         description: "Managed node infrastructure with high availability",
         icon: <Server className="h-5 w-5 text-emerald-400" />,
       },
       {
         title: "Network Explorer",
-        href: "#networks",
+        href: "/#networks",
         description: "Analyze and inspect blockchain data in real-time",
         icon: <Globe className="h-5 w-5 text-emerald-400" />,
       },
       {
         title: "Infrastructure Analytics",
-        href: "#networks",
+        href: "/#networks",
         description: "Monitor your node performance and uptime",
         icon: <BarChart className="h-5 w-5 text-emerald-400" />,
       },
     ],
   },
   {
-    title: "Docs",
-    href: "https://nodebridge-africa.gitbook.io/nodebridge-africa/node-operator-vs.-validator-understanding-the-differences",
-    target: "_blank",
+    title: "About Us",
+    href: "/about",
   },
   {
     title: "Blog",
@@ -89,7 +87,7 @@ const navItems = [
       },
       {
         title: "Workshops",
-        href: "/workshops",
+        href: "/blog",
         description: "Interactive learning experiences for all skill levels",
         icon: <GraduationCap className="h-5 w-5 text-emerald-400" />,
       },

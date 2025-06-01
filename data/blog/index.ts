@@ -12,7 +12,6 @@ export interface BlogEntry {
   category: string;
   author: {
     name: string;
-    avatar: string;
   };
 }
 
@@ -30,7 +29,6 @@ export const blogEntries: BlogEntry[] = [
     category: "Blockchain Education",
     author: {
       name: "Ada Nwosu",
-      avatar: "/images/authors/ada.jpg",
     },
   },
   {
@@ -46,7 +44,6 @@ export const blogEntries: BlogEntry[] = [
     category: "Workshops",
     author: {
       name: "Kwame Mensah",
-      avatar: "/images/authors/kwame.jpg",
     },
   },
   {
@@ -62,7 +59,6 @@ export const blogEntries: BlogEntry[] = [
     category: "Web3 Insights",
     author: {
       name: "Fatima Bello",
-      avatar: "/images/authors/fatima.jpg",
     },
   },
   {
@@ -78,7 +74,6 @@ export const blogEntries: BlogEntry[] = [
     category: "Workshops",
     author: {
       name: "Lebo Dlamini",
-      avatar: "/images/authors/lebo.jpg",
     },
   },
 ];

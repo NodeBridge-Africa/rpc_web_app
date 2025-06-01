@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { GraduationCap, BookOpen, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function EducationHub() {
   return (
@@ -78,8 +79,14 @@ export default function EducationHub() {
               </CardContent>
               <CardFooter>
                 <Button className="w-full group" variant="outline">
-                  View Upcoming Workshops
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Link
+                    className="flex items-center"
+                    href="/blog"
+                    target="_blank"
+                  >
+                    View Upcoming Workshops
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>
@@ -124,8 +131,14 @@ export default function EducationHub() {
               </CardContent>
               <CardFooter>
                 <Button className="w-full group" variant="outline">
-                  Explore Resources
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Link
+                    className="flex items-center"
+                    href="https://nodebridge-africa.gitbook.io/nodebridge-africa/node-operator-vs.-validator-understanding-the-differences"
+                    target="_blank"
+                  >
+                    Explore Resources
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>

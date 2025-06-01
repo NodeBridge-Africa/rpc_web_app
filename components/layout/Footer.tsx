@@ -14,10 +14,28 @@ export default function Footer() {
               <Logo className="h-8 w-auto" />
               <span className="font-semibold text-lg">Nodebridge Africa</span>
             </Link>
-            <p className="text-muted-foreground max-w-md mb-6">
+            <p className="text-muted-foreground max-w-md mb-2">
               Powering the next generation of decentralized applications across
               Africa with reliable blockchain infrastructure.
             </p>
+            <div className="flex items-center gap-1 mb-4">
+              <p>Built by</p>
+              <Link
+                href="https://x.com/Kc_Pele"
+                target="_blank"
+                className="text-muted-foreground  hover:text-[#10B981] transition-colors"
+              >
+                KcPele
+              </Link>{" "}
+              <p>and</p>
+              <Link
+                href="https://x.com/codemicah"
+                target="_blank"
+                className="text-muted-foreground hover:text-[#10B981] transition-colors"
+              >
+                CodeMicah
+              </Link>
+            </div>
             <div className="flex space-x-4">
               <Link
                 href="https://x.com/nodebridge_africa"
@@ -114,7 +132,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="blog"
+                  href="/blog"
                   className="hover:text-[#10B981] transition-colors"
                 >
                   Blog
@@ -145,7 +163,7 @@ export default function Footer() {
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <Link
-                  href="/workshops"
+                  href="/blog"
                   className="hover:text-[#10B981] transition-colors"
                 >
                   Workshops
