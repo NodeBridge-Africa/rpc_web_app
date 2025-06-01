@@ -59,7 +59,7 @@ export default function Footer() {
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <Link
-                  href="/launch"
+                  href="/auth/login"
                   className="hover:text-[#10B981] transition-colors"
                 >
                   RPC Endpoints

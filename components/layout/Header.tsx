@@ -244,13 +244,13 @@ export default function Header() {
                   ))}
                   <div className="pt-6 space-y-4">
                     <Button variant="outline" className="w-full" asChild>
-                      <Link href="/launch">Request RPC</Link>
+                      <Link href="/auth/login">Request RPC</Link>
                     </Button>
                     <Button
                       className="w-full bg-[#10B981] hover:bg-[#059669] text-black"
                       asChild
                     >
-                      <Link href="/launch">Launch App</Link>
+                      <Link href="/auth/register">Launch App</Link>
                     </Button>
                   </div>
                 </div>
