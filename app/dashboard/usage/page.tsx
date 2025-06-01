@@ -135,7 +135,7 @@ export default function UsageAnalyticsPage() {
   }));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Usage Analytics</h1>
@@ -221,11 +221,23 @@ export default function UsageAnalyticsPage() {
               <CardContent>
                 {topApps.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={topApps}>
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                    <BarChart data={topApps} margin={{ top: 20, right: 20, bottom: 20, left: 20 }} barCategoryGap="20%">
+                      <XAxis 
+                        dataKey="name" 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 12 }}
+                        dy={10}
+                        interval={0}
+                      />
+                      <YAxis hide />
                       <Tooltip />
-                      <Bar dataKey="requests" fill="#10b981" />
+                      <Bar
+                        dataKey="requests"
+                        fill="#10b981"
+                        radius={[8, 8, 8, 8]}
+                        maxBarSize={60}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
