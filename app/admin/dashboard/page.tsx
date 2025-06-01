@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAdminStats, useNodeHealth } from "@/app/admin/hooks/useAdminData";
 import { Users, AppWindow, Network, Activity } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { getStatusVariant } from "../lib/utils";
 
 export default function AdminDashboardPage() {
   const { data: stats, isLoading: statsLoading } = useAdminStats();
@@ -91,30 +92,39 @@ export default function AdminDashboardPage() {
                 >
                   <div className="flex items-center gap-4">
                     <div>
-                      <p className="font-medium">{node.chain}</p>
+                      <p className="font-medium capitalize">{node.chain}</p>
                       <div className="flex gap-2 mt-1">
-                        {node.details.execution && (
+                        <Badge
+                          variant={
+                            node.execution.status === "healthy"
+                              ? "default"
+                              : node.execution.status === "unhealthy"
+                              ? "destructive"
+                              : "secondary"
+                          }
+                          className="text-xs"
+                        >
+                          Execution: {node.execution.availableNodes}/
+                          {node.execution.totalNodes} nodes
+                        </Badge>
+                        <Badge
+                          variant={
+                            node.consensus.status === "healthy"
+                              ? "default"
+                              : node.consensus.status === "unhealthy"
+                              ? "destructive"
+                              : "secondary"
+                          }
+                          className="text-xs"
+                        >
+                          Consensus: {node.consensus.availableNodes}/
+                          {node.consensus.totalNodes} nodes
+                        </Badge>
+                        {node.metrics.totalNodes > 0 && (
                           <Badge
-                            variant={
-                              node.details.execution.status === "healthy"
-                                ? "default"
-                                : "destructive"
-                            }
-                            className="text-xs"
+                            variant={getStatusVariant(node?.consensus?.status)}
                           >
-                            Execution: {node.details.execution.status}
-                          </Badge>
-                        )}
-                        {node.details.consensus && (
-                          <Badge
-                            variant={
-                              node.details.consensus.status === "healthy"
-                                ? "default"
-                                : "destructive"
-                            }
-                            className="text-xs"
-                          >
-                            Consensus: {node.details.consensus.status}
+                            {node?.consensus?.status}
                           </Badge>
                         )}
                       </div>
@@ -122,14 +132,14 @@ export default function AdminDashboardPage() {
                   </div>
                   <Badge
                     variant={
-                      node.status === "healthy"
+                      node.overall === "healthy"
                         ? "default"
-                        : node.status === "unhealthy"
+                        : node.overall === "unhealthy"
                         ? "destructive"
                         : "secondary"
                     }
                   >
-                    {node.status}
+                    {node.overall}
                   </Badge>
                 </div>
               ))}

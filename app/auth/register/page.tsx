@@ -1,14 +1,17 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { RegisterInput, registerSchema } from '@/lib/validators/auth.validators';
-import { useRegister, useAuthRedirect } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Github, Loader2, AlertCircle } from 'lucide-react';
-import Link from 'next/link';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  RegisterInput,
+  registerSchema,
+} from "@/lib/validators/auth.validators";
+import { useRegister, useAuthRedirect } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Github, Loader2, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function RegisterPage() {
   const { mutate: register, isPending } = useRegister();
@@ -16,9 +19,9 @@ export default function RegisterPage() {
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -39,12 +42,12 @@ export default function RegisterPage() {
           </div>
 
           <h1 className="text-4xl font-bold text-white mb-4">
-            Join Africa's Leading Blockchain Infrastructure Provider
+            Join Africa&apos;s Leading Blockchain Infrastructure Provider
           </h1>
 
           <p className="text-gray-400 text-lg">
-            Get instant access to reliable RPC endpoints, comprehensive monitoring tools, 
-            and enterprise-grade node management capabilities.
+            Get instant access to reliable RPC endpoints, comprehensive
+            monitoring tools, and enterprise-grade node management capabilities.
           </p>
         </div>
 
@@ -57,7 +60,9 @@ export default function RegisterPage() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
             <h2 className="text-2xl font-bold text-white">Create an account</h2>
-            <p className="text-gray-400 mt-2">Get started with your NodeBridge account</p>
+            <p className="text-gray-400 mt-2">
+              Get started with your NodeBridge account
+            </p>
           </div>
 
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -65,7 +70,9 @@ export default function RegisterPage() {
               type="button"
               variant="outline"
               className="w-full bg-white/5 border-white/10 hover:bg-white/10 text-white"
-              onClick={() => console.log("GitHub auth not available in static export")}
+              onClick={() =>
+                console.log("GitHub auth not available in static export")
+              }
               disabled
             >
               <Github className="mr-2 h-4 w-4" />
@@ -89,7 +96,7 @@ export default function RegisterPage() {
                   Email
                 </label>
                 <Input
-                  {...form.register('email')}
+                  {...form.register("email")}
                   type="email"
                   placeholder="you@example.com"
                   className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
@@ -107,7 +114,7 @@ export default function RegisterPage() {
                   Password
                 </label>
                 <Input
-                  {...form.register('password')}
+                  {...form.register("password")}
                   type="password"
                   placeholder="••••••••"
                   className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
@@ -125,7 +132,7 @@ export default function RegisterPage() {
                   Confirm Password
                 </label>
                 <Input
-                  {...form.register('confirmPassword')}
+                  {...form.register("confirmPassword")}
                   type="password"
                   placeholder="••••••••"
                   className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
@@ -141,12 +148,12 @@ export default function RegisterPage() {
               <Alert className="bg-white/5 border-white/10">
                 <AlertCircle className="h-4 w-4 text-[#10B981]" />
                 <AlertDescription className="text-gray-400">
-                  Password must contain at least 6 characters with one uppercase letter, 
-                  one lowercase letter, and one number.
+                  Password must contain at least 6 characters with one uppercase
+                  letter, one lowercase letter, and one number.
                 </AlertDescription>
               </Alert>
 
-              <Button 
+              <Button
                 type="submit"
                 className="w-full bg-[#10B981] hover:bg-[#059669] text-black font-medium"
                 disabled={isPending}
@@ -157,14 +164,14 @@ export default function RegisterPage() {
                     Creating account...
                   </>
                 ) : (
-                  'Create account'
+                  "Create account"
                 )}
               </Button>
             </div>
           </form>
 
           <p className="text-center text-sm text-gray-400">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link
               href="/auth/login"
               className="text-[#10B981] hover:text-[#10B981]/80 font-medium"

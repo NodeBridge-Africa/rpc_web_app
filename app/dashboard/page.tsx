@@ -12,13 +12,8 @@ import Link from "next/link";
 export default function DashboardPage() {
   const { data: session } = useSession();
   const user = session?.user;
-  const { data: statsData, isLoading: statsLoading } =
-    useDashboardStats("overview");
-  const { data: appsData, isLoading: appsLoading } = useUserApps(
-    1,
-    5,
-    "overview"
-  );
+  const { data: statsData, isLoading: statsLoading } = useDashboardStats();
+  const { data: appsData, isLoading: appsLoading } = useUserApps(1, 5);
 
   const stats = statsData?.data?.stats;
   const recentApps = appsData?.data?.apps || [];

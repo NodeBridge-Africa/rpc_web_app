@@ -120,9 +120,9 @@ export default function UserApps() {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete App</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete "{app.name}"? This action
-                      cannot be undone. All API keys and data associated with
-                      this app will be permanently deleted.
+                      Are you sure you want to delete &quot;{app.name}
+                      &quot;? This action cannot be undone. All API keys and
+                      data associated with this app will be permanently deleted.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -164,7 +164,9 @@ export default function UserApps() {
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-muted-foreground">Today's Requests:</span>
+              <span className="text-muted-foreground">
+                Today&apos;s Requests:
+              </span>
               <p className="font-medium">
                 {app.dailyRequests.toLocaleString()}
               </p>

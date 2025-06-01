@@ -71,21 +71,21 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const prefetchData = async () => {
       // Prefetch dashboard stats for overview
       queryClient.prefetchQuery({
-        queryKey: APP_KEYS.stats("overview"),
+        queryKey: APP_KEYS.stats(),
         queryFn: () => appUseCase.getDashboardStats(),
         staleTime: 1000 * 60 * 10,
       });
 
       // Prefetch user apps for overview
       queryClient.prefetchQuery({
-        queryKey: APP_KEYS.list(1, 5, "overview"),
+        queryKey: APP_KEYS.list(1, 5),
         queryFn: () => appUseCase.getUserApps(1, 5),
         staleTime: 1000 * 60 * 10,
       });
 
       // Prefetch user apps for apps page
       queryClient.prefetchQuery({
-        queryKey: APP_KEYS.list(1, 10, "apps"),
+        queryKey: APP_KEYS.list(1, 10),
         queryFn: () => appUseCase.getUserApps(1, 10),
         staleTime: 1000 * 60 * 10,
       });

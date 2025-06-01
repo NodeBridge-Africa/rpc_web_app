@@ -140,8 +140,8 @@ export default function AppDetailsPage() {
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <h2 className="text-2xl font-semibold mb-2">App not found</h2>
         <p className="text-muted-foreground mb-4">
-          The app you're looking for doesn't exist or you don't have access to
-          it.
+          The app you&apos;re looking for doesn&apos;t exist or you don&apos;t
+          have access to it.
         </p>
         <Link href="/dashboard/apps">
           <Button>Back to Apps</Button>
@@ -238,7 +238,7 @@ export default function AppDetailsPage() {
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium">Today's Requests</p>
+                <p className="text-sm font-medium">Today&apos;s Requests</p>
                 <p className="text-2xl font-bold mt-1">
                   {app.dailyRequests.toLocaleString()}
                 </p>
@@ -392,7 +392,7 @@ export default function AppDetailsPage() {
             <p className="text-sm font-medium mb-2">Execution RPC Endpoint</p>
             <code className="block bg-muted p-3 rounded-md text-sm">
               {`${
-                process.env.NEXT_PUBLIC_BACKEND_API_URL
+                process.env.NEXT_PUBLIC_BACKEND_RPC_URL
               }/${app.chainName.toLowerCase()}/exec/${
                 app.apiKey || "YOUR_API_KEY"
               }`}
@@ -402,7 +402,7 @@ export default function AppDetailsPage() {
             <p className="text-sm font-medium mb-2">RPC Endpoint Consensus</p>
             <code className="block bg-muted p-3 rounded-md text-sm">
               {`${
-                process.env.NEXT_PUBLIC_BACKEND_API_URL
+                process.env.NEXT_PUBLIC_BACKEND_RPC_URL
               }/${app.chainName.toLowerCase()}/cons/${
                 app.apiKey || "YOUR_API_KEY"
               }`}
@@ -413,7 +413,7 @@ export default function AppDetailsPage() {
             <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
               {`curl -X POST \\
   ${
-    process.env.NEXT_PUBLIC_BACKEND_API_URL
+    process.env.NEXT_PUBLIC_BACKEND_RPC_URL
   }/${app.chainName.toLowerCase()}/exec/${app.apiKey || "YOUR_API_KEY"} \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -434,7 +434,7 @@ export default function AppDetailsPage() {
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete your
-              app "{app.name}" and invalidate its API key.
+              app &quot;{app.name}&quot; and invalidate its API key.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

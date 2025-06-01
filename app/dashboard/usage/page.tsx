@@ -161,7 +161,7 @@ export default function UsageAnalyticsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Today's Requests
+              Today&apos;s Requests
             </CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -300,7 +300,7 @@ export default function UsageAnalyticsPage() {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <span className="text-muted-foreground">
-                            Today's Requests:
+                            Today&apos;s Requests:
                           </span>
                           <p className="font-medium">
                             {app.dailyRequests.toLocaleString()} /{" "}

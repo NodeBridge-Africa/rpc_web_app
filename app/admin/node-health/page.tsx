@@ -21,6 +21,7 @@ import {
   Wifi,
   WifiOff,
 } from "lucide-react";
+import { getStatusVariant } from "../lib/utils";
 
 export default function AdminNodeHealthPage() {
   const { data: nodeHealth, isLoading } = useNodeHealth();
@@ -37,21 +38,6 @@ export default function AdminNodeHealthPage() {
         return <AlertCircle className="h-5 w-5 text-yellow-600" />;
       default:
         return <AlertCircle className="h-5 w-5 text-gray-600" />;
-    }
-  };
-
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "healthy":
-      case "available":
-        return "default" as const;
-      case "unhealthy":
-      case "unavailable":
-        return "destructive" as const;
-      case "degraded":
-        return "secondary" as const;
-      default:
-        return "outline" as const;
     }
   };
 
@@ -104,7 +90,8 @@ export default function AdminNodeHealthPage() {
                     <div>
                       <CardTitle className="capitalize">{node.chain}</CardTitle>
                       <CardDescription>
-                        Last updated: {new Date(node.timestamp).toLocaleTimeString()}
+                        Last updated:{" "}
+                        {new Date(node.timestamp).toLocaleTimeString()}
                       </CardDescription>
                     </div>
                   </div>
@@ -124,76 +111,115 @@ export default function AdminNodeHealthPage() {
                       </div>
                       <div className="flex items-center gap-4">
                         <span className="text-sm text-muted-foreground">
-                          {node?.execution?.availableNodes}/{node?.execution?.totalNodes} nodes available
+                          {node?.execution?.availableNodes}/
+                          {node?.execution?.totalNodes} nodes available
                         </span>
-                        <Badge variant={getStatusVariant(node?.execution?.status)}>
+                        <Badge
+                          variant={getStatusVariant(node?.execution?.status)}
+                        >
                           {node?.execution?.status}
                         </Badge>
                       </div>
                     </div>
-                    
-                    {node?.execution?.nodes && node.execution.nodes.length > 0 && (
-                      <div className="grid gap-3 ml-6">
-                        {node.execution.nodes.map((execNode) => (
-                          <Card key={execNode.nodeIndex} className="border-l-4 border-l-primary/20">
-                            <CardContent className="pt-4">
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-2">
-                                    <Server className="h-4 w-4 text-muted-foreground" />
-                                    <code className="text-xs">{execNode.nodeUrl}</code>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    {execNode.status === "available" ? (
-                                      <Wifi className="h-4 w-4 text-green-600" />
-                                    ) : (
-                                      <WifiOff className="h-4 w-4 text-red-600" />
-                                    )}
-                                    <Badge variant={getStatusVariant(execNode.status)}>
-                                      {execNode.status}
-                                    </Badge>
-                                  </div>
-                                </div>
-                                
-                                {execNode.syncing && typeof execNode.syncing === "object" && (
-                                  <div className="mt-2 p-2 bg-muted/50 rounded">
-                                    <div className="text-xs space-y-1">
-                                      <div>Current Block: {formatHexToNumber(execNode.syncing.currentBlock)}</div>
-                                      <div>Highest Block: {formatHexToNumber(execNode.syncing.highestBlock)}</div>
-                                      {execNode.syncing.stages && execNode.syncing.stages.length > 0 && (
-                                        <details className="mt-2">
-                                          <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-                                            Sync Stages
-                                          </summary>
-                                          <div className="mt-1 space-y-0.5">
-                                            {execNode.syncing.stages.map((stage) => (
-                                              <div key={stage.name} className="flex justify-between">
-                                                <span>{stage.name}:</span>
-                                                <span className="font-mono">{formatHexToNumber(stage.block)}</span>
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </details>
+
+                    {node?.execution?.nodes &&
+                      node.execution.nodes.length > 0 && (
+                        <div className="grid gap-3 ml-6">
+                          {node.execution.nodes.map((execNode) => (
+                            <Card
+                              key={execNode.nodeIndex}
+                              className="border-l-4 border-l-primary/20"
+                            >
+                              <CardContent className="pt-4">
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <Server className="h-4 w-4 text-muted-foreground" />
+                                      <code className="text-xs">
+                                        {execNode.nodeUrl}
+                                      </code>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      {execNode.status === "available" ? (
+                                        <Wifi className="h-4 w-4 text-green-600" />
+                                      ) : (
+                                        <WifiOff className="h-4 w-4 text-red-600" />
                                       )}
+                                      <Badge
+                                        variant={getStatusVariant(
+                                          execNode.status
+                                        )}
+                                      >
+                                        {execNode.status}
+                                      </Badge>
                                     </div>
                                   </div>
-                                )}
-                                
-                                {execNode.syncing === false && (
-                                  <div className="text-xs text-green-600">Fully Synced</div>
-                                )}
-                                
-                                {execNode.error && (
-                                  <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
-                                    {execNode.error}
-                                  </div>
-                                )}
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    )}
+
+                                  {execNode.syncing &&
+                                    typeof execNode.syncing === "object" && (
+                                      <div className="mt-2 p-2 bg-muted/50 rounded">
+                                        <div className="text-xs space-y-1">
+                                          <div>
+                                            Current Block:{" "}
+                                            {formatHexToNumber(
+                                              execNode.syncing.currentBlock
+                                            )}
+                                          </div>
+                                          <div>
+                                            Highest Block:{" "}
+                                            {formatHexToNumber(
+                                              execNode.syncing.highestBlock
+                                            )}
+                                          </div>
+                                          {execNode.syncing.stages &&
+                                            execNode.syncing.stages.length >
+                                              0 && (
+                                              <details className="mt-2">
+                                                <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                                                  Sync Stages
+                                                </summary>
+                                                <div className="mt-1 space-y-0.5">
+                                                  {execNode.syncing.stages.map(
+                                                    (stage) => (
+                                                      <div
+                                                        key={stage.name}
+                                                        className="flex justify-between"
+                                                      >
+                                                        <span>
+                                                          {stage.name}:
+                                                        </span>
+                                                        <span className="font-mono">
+                                                          {formatHexToNumber(
+                                                            stage.block
+                                                          )}
+                                                        </span>
+                                                      </div>
+                                                    )
+                                                  )}
+                                                </div>
+                                              </details>
+                                            )}
+                                        </div>
+                                      </div>
+                                    )}
+
+                                  {execNode.syncing === false && (
+                                    <div className="text-xs text-green-600">
+                                      Fully Synced
+                                    </div>
+                                  )}
+
+                                  {execNode.error && (
+                                    <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
+                                      {execNode.error}
+                                    </div>
+                                  )}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )}
                   </div>
 
                   {/* Consensus Layer */}
@@ -205,62 +231,88 @@ export default function AdminNodeHealthPage() {
                       </div>
                       <div className="flex items-center gap-4">
                         <span className="text-sm text-muted-foreground">
-                          {node?.consensus?.availableNodes}/{node?.consensus?.totalNodes} nodes available
+                          {node?.consensus?.availableNodes}/
+                          {node?.consensus?.totalNodes} nodes available
                         </span>
-                        <Badge variant={getStatusVariant(node?.consensus?.status)}>
+                        <Badge
+                          variant={getStatusVariant(node?.consensus?.status)}
+                        >
                           {node?.consensus?.status}
                         </Badge>
                       </div>
                     </div>
-                    
-                    {node?.consensus?.nodes && node.consensus.nodes.length > 0 && (
-                      <div className="grid gap-3 ml-6">
-                        {node.consensus.nodes.map((consNode) => (
-                          <Card key={consNode.nodeIndex} className="border-l-4 border-l-primary/20">
-                            <CardContent className="pt-4">
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-2">
-                                    <Server className="h-4 w-4 text-muted-foreground" />
-                                    <code className="text-xs">{consNode.nodeUrl}</code>
+
+                    {node?.consensus?.nodes &&
+                      node.consensus.nodes.length > 0 && (
+                        <div className="grid gap-3 ml-6">
+                          {node.consensus.nodes.map((consNode) => (
+                            <Card
+                              key={consNode.nodeIndex}
+                              className="border-l-4 border-l-primary/20"
+                            >
+                              <CardContent className="pt-4">
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <Server className="h-4 w-4 text-muted-foreground" />
+                                      <code className="text-xs">
+                                        {consNode.nodeUrl}
+                                      </code>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      {consNode.status === "available" ? (
+                                        <Wifi className="h-4 w-4 text-green-600" />
+                                      ) : (
+                                        <WifiOff className="h-4 w-4 text-red-600" />
+                                      )}
+                                      <Badge
+                                        variant={getStatusVariant(
+                                          consNode.status
+                                        )}
+                                      >
+                                        {consNode.status}
+                                      </Badge>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center gap-2">
-                                    {consNode.status === "available" ? (
-                                      <Wifi className="h-4 w-4 text-green-600" />
-                                    ) : (
-                                      <WifiOff className="h-4 w-4 text-red-600" />
-                                    )}
-                                    <Badge variant={getStatusVariant(consNode.status)}>
-                                      {consNode.status}
-                                    </Badge>
-                                  </div>
-                                </div>
-                                
-                                <div className="flex items-center justify-between text-xs">
-                                  <span className="text-muted-foreground">Sync Status:</span>
-                                  <span className={consNode.syncing === false ? "text-green-600" : "text-yellow-600"}>
-                                    {formatSyncStatus(consNode.syncing)}
-                                  </span>
-                                </div>
-                                
-                                {consNode.head_slot && consNode.head_slot !== "unknown" && (
+
                                   <div className="flex items-center justify-between text-xs">
-                                    <span className="text-muted-foreground">Head Slot:</span>
-                                    <span className="font-mono">{consNode.head_slot}</span>
+                                    <span className="text-muted-foreground">
+                                      Sync Status:
+                                    </span>
+                                    <span
+                                      className={
+                                        consNode.syncing === false
+                                          ? "text-green-600"
+                                          : "text-yellow-600"
+                                      }
+                                    >
+                                      {formatSyncStatus(consNode.syncing)}
+                                    </span>
                                   </div>
-                                )}
-                                
-                                {consNode.error && (
-                                  <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
-                                    {consNode.error}
-                                  </div>
-                                )}
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    )}
+
+                                  {consNode.head_slot &&
+                                    consNode.head_slot !== "unknown" && (
+                                      <div className="flex items-center justify-between text-xs">
+                                        <span className="text-muted-foreground">
+                                          Head Slot:
+                                        </span>
+                                        <span className="font-mono">
+                                          {consNode.head_slot}
+                                        </span>
+                                      </div>
+                                    )}
+
+                                  {consNode.error && (
+                                    <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
+                                      {consNode.error}
+                                    </div>
+                                  )}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )}
                   </div>
 
                   {/* Metrics/Prometheus */}
@@ -272,24 +324,32 @@ export default function AdminNodeHealthPage() {
                       </div>
                       <div className="flex items-center gap-4">
                         <span className="text-sm text-muted-foreground">
-                          {node?.metrics?.availableNodes}/{node?.metrics?.totalNodes} nodes available
+                          {node?.metrics?.availableNodes}/
+                          {node?.metrics?.totalNodes} nodes available
                         </span>
-                        <Badge variant={getStatusVariant(node?.metrics?.status)}>
+                        <Badge
+                          variant={getStatusVariant(node?.metrics?.status)}
+                        >
                           {node?.metrics?.status}
                         </Badge>
                       </div>
                     </div>
-                    
+
                     {node?.metrics?.nodes && node.metrics.nodes.length > 0 && (
                       <div className="grid gap-3 ml-6">
                         {node.metrics.nodes.map((metricNode) => (
-                          <Card key={metricNode.nodeIndex} className="border-l-4 border-l-primary/20">
+                          <Card
+                            key={metricNode.nodeIndex}
+                            className="border-l-4 border-l-primary/20"
+                          >
                             <CardContent className="pt-4">
                               <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center gap-2">
                                     <Server className="h-4 w-4 text-muted-foreground" />
-                                    <code className="text-xs">{metricNode.nodeUrl}</code>
+                                    <code className="text-xs">
+                                      {metricNode.nodeUrl}
+                                    </code>
                                   </div>
                                   <div className="flex items-center gap-2">
                                     {metricNode.status === "available" ? (
@@ -297,12 +357,16 @@ export default function AdminNodeHealthPage() {
                                     ) : (
                                       <WifiOff className="h-4 w-4 text-red-600" />
                                     )}
-                                    <Badge variant={getStatusVariant(metricNode.status)}>
+                                    <Badge
+                                      variant={getStatusVariant(
+                                        metricNode.status
+                                      )}
+                                    >
                                       {metricNode.status}
                                     </Badge>
                                   </div>
                                 </div>
-                                
+
                                 {metricNode.error && (
                                   <div className="mt-2 p-2 bg-destructive/10 rounded text-xs text-destructive">
                                     {metricNode.error}
