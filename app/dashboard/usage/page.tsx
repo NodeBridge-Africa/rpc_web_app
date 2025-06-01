@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAllAppsUsageAnalytics } from "../hooks/useApps";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+// import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -327,10 +327,12 @@ export default function UsageAnalyticsPage() {
                           </Button>
                         </div>
                       </div>
-                      <Progress
-                        value={app.usagePercentage}
-                        className="mt-2 h-2"
-                      />
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div
+                          className="bg-blue-600 h-2 rounded-full"
+                          style={{ width: `${app.usagePercentage}%` }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
                 ))}
