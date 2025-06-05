@@ -12,7 +12,7 @@ const testimonials = [
   },
   {
     quote:
-      "The node operator bootcamp was incredibly comprehensive. It took me from zero knowledge to confidently running my own Ethereum validator.",
+      "Honestly, I learnt a lot during the course of the bootcamp, because I know that if I hadn't joined the program I'm not quite sure I'd know what it feels like to run an Ethereum Node or even any blockchain's node in general",
     name: "Emmanuel",
   },
   {

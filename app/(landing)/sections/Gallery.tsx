@@ -5,32 +5,32 @@ import { motion } from "framer-motion";
 
 const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1515168833906-d2a3b82b3029?auto=format&fit=crop&w=600&q=80",
+    src: "/images/gallery/gallery_1.jpg",
     alt: "Nodebridge event in Lagos",
     caption: "Lagos Bootcamp 2023",
   },
   {
-    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+    src: "/images/gallery/gallery_2.jpg",
     alt: "Workshop participants collaborating",
     caption: "Web3 Workshop Collaboration",
   },
   {
-    src: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+    src: "/images/gallery/gallery_3.jpg",
     alt: "Speaker at Nodebridge event",
     caption: "Keynote Speaker Session",
   },
   {
-    src: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80",
+    src: "/images/gallery/gallery_4.jpg",
     alt: "Hands-on blockchain training",
     caption: "Hands-on Blockchain Training",
   },
   {
-    src: "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=600&q=80",
+    src: "/images/gallery/gallery_5.jpg",
     alt: "Group photo at Nodebridge event",
     caption: "Community Group Photo",
   },
   {
-    src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80",
+    src: "/images/gallery/gallery_6.jpg",
     alt: "Panel discussion at workshop",
     caption: "Panel Discussion",
   },

@@ -25,7 +25,7 @@ export default function PartnersMarquee() {
           className="text-center mb-8"
         >
           <h3 className="text-lg font-medium text-muted-foreground">
-            Trusted By Leading Web3 Organizations
+            Supported By
           </h3>
         </motion.div>
 
