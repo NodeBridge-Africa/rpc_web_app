@@ -22,7 +22,7 @@ console.log(\`Current block: \${blockNumber}\`);`,
   python: `from web3 import Web3
 
 web3 = Web3(Web3.HTTPProvider(
-    "https://eth.nodebridge.africa/v1/mainnet",
+    "https://eth.nodebridge.xyz/exec/mainnet",
     request_kwargs={
         "headers": {
             "Authorization": f"Bearer {os.environ['NODEBRIDGE_API_KEY']}"
@@ -32,7 +32,7 @@ web3 = Web3(Web3.HTTPProvider(
 
 block_number = web3.eth.block_number
 print(f"Current block: {block_number}")`,
-  curl: `curl https://eth.nodebridge.africa/v1/mainnet \\
+  curl: `curl https://eth.nodebridge.xyz/exec/mainnet \\
   -X POST \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer $NODEBRIDGE_API_KEY" \\
@@ -44,14 +44,20 @@ export function CodeSnippetTabs() {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(snippets[activeTab as keyof typeof snippets]);
+    await navigator.clipboard.writeText(
+      snippets[activeTab as keyof typeof snippets]
+    );
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      <Tabs defaultValue="javascript" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        defaultValue="javascript"
+        value={activeTab}
+        onValueChange={setActiveTab}
+      >
         <div className="flex items-center justify-between mb-4">
           <TabsList className="bg-background/95 border border-border/50">
             <TabsTrigger value="javascript">JavaScript</TabsTrigger>
@@ -73,7 +79,9 @@ export function CodeSnippetTabs() {
           <TabsContent key={lang} value={lang} className="mt-0">
             <div className="relative">
               <pre className="p-4 rounded-lg bg-black/50 border border-border/50 overflow-x-auto">
-                <code className="text-sm text-left font-mono text-white/90">{code}</code>
+                <code className="text-sm text-left font-mono text-white/90">
+                  {code}
+                </code>
               </pre>
             </div>
           </TabsContent>
