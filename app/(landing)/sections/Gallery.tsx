@@ -7,7 +7,7 @@ const galleryImages = [
   {
     src: "/images/gallery/gallery_1.jpg",
     alt: "Nodebridge event in Lagos",
-    caption: "Lagos Bootcamp 2023",
+    caption: "Lagos Bootcamp 2024",
   },
   {
     src: "/images/gallery/gallery_2.jpg",
