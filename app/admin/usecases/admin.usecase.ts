@@ -275,11 +275,17 @@ export const adminUseCase = {
       adminUseCase.getChains(),
     ]);
 
+    // Calculate totalRequests by summing the requests from all apps
+    const totalRequests = apps.apps.reduce(
+      (sum, app) => sum + (app.requests || 0),
+      0
+    );
+
     return {
       totalUsers: users.total,
       totalApps: apps.total,
       activeChains: chains.filter((c) => c.isEnabled).length,
-      totalRequests: 0, // Would need backend implementation
+      totalRequests,
     };
   },
 };

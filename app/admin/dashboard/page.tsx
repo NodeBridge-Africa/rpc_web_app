@@ -10,6 +10,7 @@ import { getStatusVariant } from "../lib/utils";
 export default function AdminDashboardPage() {
   const { data: stats, isLoading: statsLoading } = useAdminStats();
   const { data: nodeHealth, isLoading: healthLoading } = useNodeHealth();
+  console.log("stats", stats);
 
   const statCards = [
     {
