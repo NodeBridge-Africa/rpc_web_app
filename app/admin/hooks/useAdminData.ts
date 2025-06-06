@@ -301,6 +301,6 @@ export const useAdminStats = () => {
   return useQuery({
     queryKey: queryKeys.adminStats(),
     queryFn: adminUseCase.getAdminStats,
-    refetchInterval: 60000, // Refresh every minute
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 };

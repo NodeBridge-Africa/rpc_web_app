@@ -32,6 +32,7 @@ export const useDashboardStats = () => {
   return useQuery({
     queryKey: APP_KEYS.stats(),
     queryFn: () => appUseCase.getDashboardStats(),
+    refetchInterval: 30000, // Refetch every 30 seconds
   });
 };
 
@@ -150,6 +151,7 @@ export const useAppUsageAnalytics = (appId: string) => {
     queryKey: [...APP_KEYS.detail(appId), "usage"],
     queryFn: () => appUseCase.getAppUsageAnalytics(appId),
     enabled: !!appId,
+    refetchInterval: 30000, // Refetch every 30 seconds
   });
 };
 
@@ -157,5 +159,6 @@ export const useAllAppsUsageAnalytics = () => {
   return useQuery({
     queryKey: [...APP_KEYS.all, "usage", "all"],
     queryFn: () => appUseCase.getAllAppsUsageAnalytics(),
+    refetchInterval: 30000, // Refetch every 30 seconds
   });
 };
