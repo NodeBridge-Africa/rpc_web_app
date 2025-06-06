@@ -1,6 +1,6 @@
 // Backend API Response Types based on actual backend implementation
 
-import { NodeHealth } from "./api.types";
+import { NodeHealth, User } from "./api.types";
 
 // Auth Response Types
 export interface AuthLoginResponse {
@@ -65,9 +65,8 @@ export interface ChainResponse {
 
 export interface AdminSuccessResponse {
   success: boolean;
-  data: {
-    message: string;
-  };
+  message: string;
+  data: {};
 }
 
 // Node Health Response Types (matching backend controller response)
@@ -109,10 +108,8 @@ export interface UpdateAppRequest {
 
 export interface CreateAppResponse {
   success: boolean;
-  data: {
-    message: string;
-    app: AppResponse;
-  };
+  message: string;
+  data: AppResponse;
 }
 
 export interface GetAppResponse {
@@ -122,25 +119,19 @@ export interface GetAppResponse {
 
 export interface UpdateAppResponse {
   success: boolean;
-  data: {
-    message: string;
-    app: AppResponse;
-  };
+  message: string;
+  data: AppResponse;
 }
 
 export interface DeleteAppResponse {
   success: boolean;
-  data: {
-    message: string;
-  };
+  message: string;
 }
 
 export interface RegenerateKeyResponse {
   success: boolean;
-  data: {
-    message: string;
-    apiKey: string;
-  };
+  message: string;
+  data: string;
 }
 
 export interface PaginationInfo {
@@ -153,8 +144,8 @@ export interface PaginationInfo {
 
 export interface ListAppsResponse {
   success: boolean;
+  message: string;
   data: {
-    message: string;
     apps: AppResponse[];
     pagination: PaginationInfo;
   };
@@ -170,8 +161,8 @@ export interface DashboardStats {
 
 export interface DashboardStatsResponse {
   success: boolean;
+  message: string;
   data: {
-    message: string;
     stats: DashboardStats;
   };
 }
@@ -236,22 +227,19 @@ export interface UpdateEmailRequest {
 
 export interface UpdatePasswordResponse {
   success: boolean;
-  data: {
-    message: string;
-  };
+  message: string;
+  data: User;
 }
 
 export interface UpdateEmailResponse {
   success: boolean;
+  message: string;
   data: {
-    message: string;
-    user: {
-      id: string;
-      email: string;
-      isActive: boolean;
-      createdAt: string;
-      updatedAt: string;
-    };
+    id: string;
+    email: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 
@@ -291,8 +279,8 @@ export interface HourlyData {
 
 export interface AppUsageAnalyticsResponse {
   success: boolean;
+  message: string;
   data: {
-    message: string;
     analytics: {
       app: {
         id: string;
@@ -325,8 +313,8 @@ export interface AppUsageSummary {
 
 export interface AllAppsUsageAnalyticsResponse {
   success: boolean;
+  message: string;
   data: {
-    message: string;
     analytics: {
       summary: {
         totalApps: number;

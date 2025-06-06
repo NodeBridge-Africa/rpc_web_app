@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { appUseCase } from "../usecases/app.usecase";
 import { CreateAppRequest, UpdateAppRequest } from "@/lib/types/backend.types";
-import { useRouter } from "next/navigation";
 // Query Keys
 export const APP_KEYS = {
   all: ["apps"] as const,
@@ -43,12 +42,11 @@ export const useCreateApp = () => {
   return useMutation({
     mutationFn: (appData: CreateAppRequest) => appUseCase.createApp(appData),
     onSuccess: (data) => {
-      window.location.href = `/dashboard/apps/${data.data.app._id}`;
       queryClient.invalidateQueries({ queryKey: APP_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: APP_KEYS.stats() });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message || "App created successfully",
       });
     },
     onError: (error) => {
@@ -81,7 +79,7 @@ export const useUpdateApp = () => {
       });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message,
       });
     },
     onError: (error) => {
@@ -107,7 +105,7 @@ export const useDeleteApp = () => {
       queryClient.removeQueries({ queryKey: APP_KEYS.detail(appId) });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message || "App deleted successfully",
       });
     },
     onError: (error) => {
@@ -131,7 +129,7 @@ export const useRegenerateApiKey = () => {
       queryClient.invalidateQueries({ queryKey: APP_KEYS.detail(appId) });
       toast({
         title: "Success",
-        description: data.data.message,
+        description: data.message,
       });
     },
     onError: (error) => {

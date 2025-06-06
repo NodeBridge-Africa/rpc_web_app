@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAllAppsUsageAnalytics } from "../hooks/useApps";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+// import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
+const COLORS = ["#10b981", "#34d399", "#6ee7b7", "#a7f3d0", "#d1fae5"];
 
 export default function UsageAnalyticsPage() {
   const { data, isLoading, error } = useAllAppsUsageAnalytics();
@@ -135,7 +135,7 @@ export default function UsageAnalyticsPage() {
   }));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Usage Analytics</h1>
@@ -221,11 +221,25 @@ export default function UsageAnalyticsPage() {
               <CardContent>
                 {topApps.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={topApps}>
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="requests" fill="#8884d8" />
+                    <BarChart data={topApps} margin={{ top: 20, right: 20, bottom: 20, left: 20 }} barCategoryGap="20%">
+                      <XAxis 
+                        dataKey="name" 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 12 }}
+                        dy={10}
+                        interval={0}
+                      />
+                      <YAxis hide />
+                      <Tooltip 
+                        cursor={{ fill: 'transparent' }}
+                      />
+                      <Bar
+                        dataKey="requests"
+                        fill="#10b981"
+                        radius={[8, 8, 8, 8]}
+                        maxBarSize={60}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -254,8 +268,9 @@ export default function UsageAnalyticsPage() {
                           `${name} ${(percent * 100).toFixed(0)}%`
                         }
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="#10b981"
                         dataKey="value"
+                        stroke="none"
                       >
                         {chainDistribution.map((entry, index) => (
                           <Cell
@@ -327,10 +342,12 @@ export default function UsageAnalyticsPage() {
                           </Button>
                         </div>
                       </div>
-                      <Progress
-                        value={app.usagePercentage}
-                        className="mt-2 h-2"
-                      />
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div
+                          className="bg-green-500 h-2 rounded-full"
+                          style={{ width: `${app.usagePercentage}%` }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
                 ))}

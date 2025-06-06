@@ -92,7 +92,7 @@ export default function CreateAppPage() {
         onSuccess: (response) => {
           form.reset();
           setSelectedChain(null);
-          router.push(`/dashboard/apps/${response.data.app._id}`);
+          router.push(`/dashboard/apps/${response.data._id}`);
         },
       }
     );

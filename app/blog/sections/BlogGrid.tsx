@@ -4,7 +4,6 @@ import { BlogEntry } from "../../../data/blog";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Share2 } from "lucide-react";
-import Image from "next/image";
 
 interface BlogGridProps {
   entries: BlogEntry[];
@@ -59,13 +58,6 @@ export default function BlogGrid({
               {entry.description}
             </p>
             <div className="flex items-center gap-2 mb-4">
-              <Image
-                src={entry.author.avatar}
-                alt={entry.author.name}
-                width={32}
-                height={32}
-                className="rounded-full object-cover border border-[#10B981]/30"
-              />
               <span className="text-sm text-muted-foreground font-medium">
                 {entry.author.name}
               </span>

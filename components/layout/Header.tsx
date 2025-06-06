@@ -21,7 +21,6 @@ import {
   Book,
   Users,
   Menu,
-  X,
 } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,43 +33,39 @@ const navItems = [
     items: [
       {
         title: "RPC Endpoints",
-        href: "#",
+        href: "/#",
         description: "Connect to our high-performance blockchain endpoints",
         icon: <Zap className="h-5 w-5 text-emerald-400" />,
       },
       {
         title: "Node Hosting",
-        href: "#networks",
+        href: "/#networks",
         description: "Managed node infrastructure with high availability",
         icon: <Server className="h-5 w-5 text-emerald-400" />,
       },
       {
         title: "Network Explorer",
-        href: "#networks",
+        href: "/#networks",
         description: "Analyze and inspect blockchain data in real-time",
         icon: <Globe className="h-5 w-5 text-emerald-400" />,
       },
       {
         title: "Infrastructure Analytics",
-        href: "#networks",
+        href: "/#networks",
         description: "Monitor your node performance and uptime",
         icon: <BarChart className="h-5 w-5 text-emerald-400" />,
       },
     ],
   },
   {
-    title: "Docs",
-    href: "https://nodebridge-africa.gitbook.io/nodebridge-africa/node-operator-vs.-validator-understanding-the-differences",
-    target: "_blank",
+    title: "About Us",
+    href: "/about",
   },
   {
     title: "Blog",
     href: "/blog",
   },
-  {
-    title: "Workshops",
-    href: "/blog",
-  },
+
   {
     title: "Community",
     href: "#",
@@ -89,7 +84,7 @@ const navItems = [
       },
       {
         title: "Workshops",
-        href: "/workshops",
+        href: "/blog",
         description: "Interactive learning experiences for all skill levels",
         icon: <GraduationCap className="h-5 w-5 text-emerald-400" />,
       },
@@ -244,13 +239,13 @@ export default function Header() {
                   ))}
                   <div className="pt-6 space-y-4">
                     <Button variant="outline" className="w-full" asChild>
-                      <Link href="/launch">Request RPC</Link>
+                      <Link href="/auth/login">Request RPC</Link>
                     </Button>
                     <Button
                       className="w-full bg-[#10B981] hover:bg-[#059669] text-black"
                       asChild
                     >
-                      <Link href="/launch">Launch App</Link>
+                      <Link href="/auth/register">Launch App</Link>
                     </Button>
                   </div>
                 </div>

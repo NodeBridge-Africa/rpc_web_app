@@ -45,15 +45,18 @@ import {
   useAppUsageAnalytics,
 } from "@/app/dashboard/hooks/useApps";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Progress } from "@/components/ui/progress";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+// import { Progress } from "@/components/ui/progress";
+// import {
+//   BarChart,
+//   Bar,
+//   XAxis,
+//   YAxis,
+//   Tooltip,
+//   ResponsiveContainer,
+// } from "recharts";
+
+// Force dynamic rendering since this page depends on user data
+export const dynamic = 'force-dynamic';
 
 export default function AppDetailsPage() {
   const params = useParams();
@@ -135,7 +138,6 @@ export default function AppDetailsPage() {
   }
 
   if (!app) {
-    router.push("/dashboard/apps");
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <h2 className="text-2xl font-semibold mb-2">App not found</h2>
@@ -284,7 +286,12 @@ export default function AppDetailsPage() {
                   {usage.usage.usagePercentage}% of limit
                 </span>
               </div>
-              <Progress value={usage.usage.usagePercentage} className="h-2" />
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-blue-600 h-2 rounded-full" 
+                  style={{ width: `${usage.usage.usagePercentage}%` }}
+                ></div>
+              </div>
               <p className="text-xs text-muted-foreground">
                 {usage.usage.dailyRequests.toLocaleString()} of{" "}
                 {usage.usage.dailyLimit.toLocaleString()} requests used today
@@ -297,7 +304,10 @@ export default function AppDetailsPage() {
                 <h4 className="text-sm font-medium mb-4">
                   Hourly Request Distribution
                 </h4>
-                <ResponsiveContainer width="100%" height={250}>
+                <div className="w-full h-[250px] flex items-center justify-center bg-muted rounded-lg">
+                  <p className="text-muted-foreground">Chart temporarily disabled during build</p>
+                </div>
+                {/* <ResponsiveContainer width="100%" height={250}>
                   <BarChart
                     data={usage.hourlyBreakdown}
                     margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -313,7 +323,7 @@ export default function AppDetailsPage() {
                     />
                     <Bar dataKey="requests" fill="#8884d8" />
                   </BarChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> */}
               </div>
             )}
           </CardContent>
@@ -392,7 +402,7 @@ export default function AppDetailsPage() {
             <p className="text-sm font-medium mb-2">Execution RPC Endpoint</p>
             <code className="block bg-muted p-3 rounded-md text-sm">
               {`${
-                process.env.NEXT_PUBLIC_BACKEND_RPC_URL
+                process.env.NEXT_PUBLIC_BACKEND_RPC_URL || ""
               }/${app.chainName.toLowerCase()}/exec/${
                 app.apiKey || "YOUR_API_KEY"
               }`}
@@ -402,7 +412,7 @@ export default function AppDetailsPage() {
             <p className="text-sm font-medium mb-2">RPC Endpoint Consensus</p>
             <code className="block bg-muted p-3 rounded-md text-sm">
               {`${
-                process.env.NEXT_PUBLIC_BACKEND_RPC_URL
+                process.env.NEXT_PUBLIC_BACKEND_RPC_URL || ""
               }/${app.chainName.toLowerCase()}/cons/${
                 app.apiKey || "YOUR_API_KEY"
               }`}
@@ -413,7 +423,7 @@ export default function AppDetailsPage() {
             <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
               {`curl -X POST \\
   ${
-    process.env.NEXT_PUBLIC_BACKEND_RPC_URL
+    process.env.NEXT_PUBLIC_BACKEND_RPC_URL || ""
   }/${app.chainName.toLowerCase()}/exec/${app.apiKey || "YOUR_API_KEY"} \\
   -H "Content-Type: application/json" \\
   -d '{

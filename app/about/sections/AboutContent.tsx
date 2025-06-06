@@ -230,7 +230,7 @@ export default function AboutContent() {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link
-                  href="/workshops"
+                  href="/blog"
                   className="bg-[#10B981] hover:bg-[#059669] text-black font-semibold px-6 py-3 rounded shadow transition-colors"
                 >
                   Explore Workshops

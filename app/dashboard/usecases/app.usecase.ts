@@ -56,6 +56,7 @@ export class AppUseCase {
     if (!data.success) {
       throw new Error("Failed to create app");
     }
+    console.log("createApp", data);
     return data;
   }
 
