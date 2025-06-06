@@ -1,41 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-
-const galleryImages = [
-  {
-    src: "/images/gallery/gallery_1.jpg",
-    alt: "Nodebridge event in Lagos",
-    caption: "Lagos Bootcamp 2024",
-  },
-  {
-    src: "/images/gallery/gallery_2.jpg",
-    alt: "Workshop participants collaborating",
-    caption: "Web3 Workshop Collaboration",
-  },
-  {
-    src: "/images/gallery/gallery_3.jpg",
-    alt: "Speaker at Nodebridge event",
-    caption: "Keynote Speaker Session",
-  },
-  {
-    src: "/images/gallery/gallery_4.jpg",
-    alt: "Hands-on blockchain training",
-    caption: "Hands-on Blockchain Training",
-  },
-  {
-    src: "/images/gallery/gallery_5.jpg",
-    alt: "Group photo at Nodebridge event",
-    caption: "Community Group Photo",
-  },
-  {
-    src: "/images/gallery/gallery_6.jpg",
-    alt: "Panel discussion at workshop",
-    caption: "Panel Discussion",
-  },
-];
-
+import { ArrowRight } from "lucide-react";
+import { galleryImages } from "@/data/gallery";
+import { Button } from "@/components/ui/button";
 export default function Gallery() {
   return (
     <section className="py-24 bg-gradient-to-b from-background/90 to-background">
@@ -83,6 +53,21 @@ export default function Gallery() {
             </motion.div>
           ))}
         </div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <Link href="/gallery">
+            <Button size="lg" className="group">
+              View More
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
