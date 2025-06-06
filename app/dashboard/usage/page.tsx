@@ -231,7 +231,9 @@ export default function UsageAnalyticsPage() {
                         interval={0}
                       />
                       <YAxis hide />
-                      <Tooltip />
+                      <Tooltip 
+                        cursor={{ fill: 'transparent' }}
+                      />
                       <Bar
                         dataKey="requests"
                         fill="#10b981"
