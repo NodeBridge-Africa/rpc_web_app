@@ -31,6 +31,12 @@ export default function AdminDashboardPage() {
       color: "text-purple-600",
     },
     {
+      title: "Daily Requests",
+      value: stats?.totalDailyRequests || 0,
+      icon: Activity,
+      color: "text-orange-500",
+    },
+    {
       title: "Total Requests",
       value: stats?.totalRequests || 0,
       icon: Activity,
@@ -49,7 +55,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
         {statCards.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
