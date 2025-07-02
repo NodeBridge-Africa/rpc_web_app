@@ -81,13 +81,13 @@ export default function DashboardPage() {
             />
             <StatCard
               title="Total Requests"
-              value={stats?.totalRequests || 0}
+              value={stats?.totalRequests.toLocaleString() || 0}
               icon={BarChart3}
               description="All time requests"
             />
             <StatCard
               title="Today's Requests"
-              value={stats?.todaysRequests || 0}
+              value={stats?.todaysRequests.toLocaleString() || 0}
               icon={Clock}
               description="Requests today"
             />

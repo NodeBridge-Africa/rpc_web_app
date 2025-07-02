@@ -12,6 +12,27 @@ const networks = [
     chain: "Ethereum",
   },
   {
+    name: "Base",
+    logo: "BASE",
+    status: "Live",
+    statusColor: "green",
+    chain: "Base",
+  },
+  {
+    name: "Gnosis Chain",
+    logo: "GNO",
+    status: "Beta",
+    statusColor: "blue",
+    chain: "Gnosis",
+  },
+  {
+    name: "Asset Chain",
+    logo: "ASSET",
+    status: "Live",
+    statusColor: "green",
+    chain: "Asset Chain",
+  },
+  {
     name: "Sepolia",
     logo: "ETH",
     status: "Live",
@@ -25,13 +46,7 @@ const networks = [
     statusColor: "green",
     chain: "Ethereum Testnet",
   },
-  {
-    name: "Gnosis Chain",
-    logo: "GNO",
-    status: "Beta",
-    statusColor: "blue",
-    chain: "Gnosis",
-  },
+
   {
     name: "Aztec",
     logo: "AZT",
