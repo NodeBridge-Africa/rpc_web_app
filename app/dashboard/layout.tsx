@@ -7,7 +7,6 @@ import { useLogout } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +15,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LayoutDashboard,
   AppWindow,
@@ -30,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import { APP_KEYS } from "./hooks/useApps";
 import { appUseCase } from "./usecases/app.usecase";
+import { NavigationItem, UserAvatar } from "@/components/ui/design-system";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -104,11 +103,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         (nav.href !== "/dashboard" && pathname.startsWith(nav.href))
     )?.value || "overview";
 
-  const handleTabChange = (value: string) => {
-    const nav = navigation.find((n) => n.value === value);
-    if (nav) {
-      router.push(nav.href);
-    }
+  const handleNavigation = (href: string) => {
+    router.push(href);
+    setSidebarOpen(false);
   };
 
   return (
@@ -125,64 +122,54 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Sidebar */}
         <div
           className={cn(
-            "fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-card border-r transition-transform duration-300 ease-in-out lg:translate-x-0",
+            "fixed inset-y-0 left-0 z-40 flex flex-col bg-secondary border-r border-borders-primary transition-transform duration-300 ease-in-out lg:translate-x-0",
+            "w-[280px]", // Design system sidebar width
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
           {/* Logo */}
-          <div className="flex h-16 items-center gap-2 border-b px-6">
+          <div className="flex h-16 items-center gap-2 border-b border-borders-primary px-6">
             <Logo className="h-8 w-auto" />
-            <span className="text-lg font-semibold">Dashboard</span>
+            <span className="text-lg font-semibold text-text-primary">
+              Dashboard
+            </span>
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="flex-1 p-4">
-            <Tabs
-              value={currentTab}
-              onValueChange={handleTabChange}
-              orientation="vertical"
-              className="w-full"
-            >
-              <TabsList className="grid w-full grid-cols-1 h-auto bg-transparent gap-1">
-                {navigation.map((item) => (
-                  <TabsTrigger
-                    key={item.value}
-                    value={item.value}
-                    className="flex items-center justify-start gap-3 w-full h-12 px-4 text-left data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                    onClick={() => setSidebarOpen(false)}
-                  >
-                    <item.icon className="h-4 w-4" />
-                    {item.name}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
+          {/* Navigation */}
+          <div className="flex-1 p-lg space-y-1">
+            {navigation.map((item) => (
+              <NavigationItem
+                key={item.value}
+                icon={item.icon}
+                name={item.name}
+                isActive={currentTab === item.value}
+                onClick={() => handleNavigation(item.href)}
+              />
+            ))}
           </div>
 
           {/* User info */}
-          <div className="border-t p-4">
+          <div className="border-t border-borders-primary p-lg">
             <div className="flex items-center gap-3">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback>
-                  {user?.email?.[0]?.toUpperCase() || "U"}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar email={user?.email} size="md" />
               <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-medium truncate">{user?.email}</p>
-                <p className="text-xs text-muted-foreground">User</p>
+                <p className="text-sm font-medium text-text-primary truncate">
+                  {user?.email}
+                </p>
+                <p className="text-xs text-text-tertiary">User</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Main content */}
-        <div className="lg:pl-64">
+        <div className="lg:pl-[280px]">
           {/* Top bar */}
-          <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:px-6">
+          <header className="sticky top-0 z-30 flex h-16 items-center gap-lg border-b border-borders-primary bg-nav-gradient px-lg sm:px-2xl">
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden text-text-secondary hover:text-text-primary hover:bg-accent/10 transition-all duration-200"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               {sidebarOpen ? (
@@ -197,26 +184,31 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {/* User menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback>
-                      {user?.email?.[0]?.toUpperCase() || "U"}
-                    </AvatarFallback>
-                  </Avatar>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full hover:bg-accent/10 transition-all duration-200"
+                >
+                  <UserAvatar email={user?.email} size="sm" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent
+                align="end"
+                className="w-56 bg-card border-borders-primary shadow-card"
+              >
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Account</p>
-                    <p className="text-xs leading-none text-muted-foreground">
+                    <p className="text-sm font-medium leading-none text-text-primary">
+                      Account
+                    </p>
+                    <p className="text-xs leading-none text-text-secondary">
                       {user?.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-borders-subtle" />
                 <DropdownMenuItem
-                  className="cursor-pointer"
+                  className="cursor-pointer text-text-secondary hover:text-text-primary hover:bg-accent/10 transition-all duration-200"
                   onClick={() => logout()}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
@@ -227,7 +219,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </header>
 
           {/* Page content */}
-          <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
+          <main className="flex-1 p-container sm:p-2xl lg:p-3xl bg-background">
+            {children}
+          </main>
         </div>
       </div>
     </ProtectedRoute>

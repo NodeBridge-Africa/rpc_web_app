@@ -27,7 +27,7 @@ const networks = [
   },
   {
     name: "Asset Chain",
-    logo: "ASSET",
+    logo: "Asset Chain",
     status: "Live",
     statusColor: "green",
     chain: "Asset Chain",
