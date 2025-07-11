@@ -16,7 +16,7 @@ import {
   Check,
 } from "lucide-react";
 import { EditAppModal } from "@/app/dashboard/components/EditAppModal";
-
+import { addSpacesToCamelCase } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -205,7 +205,7 @@ export default function AppDetailsPage() {
               <div>
                 <p className="text-sm font-medium">Chain</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {app.chainName} (ID: {app.chainId})
+                  {addSpacesToCamelCase(app.chainName)} (ID: {app.chainId})
                 </p>
               </div>
               <div>

@@ -270,16 +270,27 @@ export const adminUseCase = {
     // This would need to be implemented on the backend
     // For now, we'll aggregate from other endpoints
     const [users, apps, chains] = await Promise.all([
-      adminUseCase.getUsers({ limit: 1 }),
-      adminUseCase.getApps({ limit: 1 }),
+      adminUseCase.getUsers({ limit: 500 }),
+      adminUseCase.getApps({ limit: 500 }),
       adminUseCase.getChains(),
     ]);
+
+    // Calculate totalRequests by summing the requests from all apps
+    const totalRequests = apps.apps.reduce(
+      (sum, app) => sum + (app.requests || 0),
+      0
+    );
+    const totalDailyRequests = apps.apps.reduce(
+      (sum, app) => sum + (app.dailyRequests || 0),
+      0
+    );
 
     return {
       totalUsers: users.total,
       totalApps: apps.total,
       activeChains: chains.filter((c) => c.isEnabled).length,
-      totalRequests: 0, // Would need backend implementation
+      totalDailyRequests,
+      totalRequests,
     };
   },
 };
