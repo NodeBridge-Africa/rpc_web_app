@@ -3,13 +3,11 @@
 import { useState } from "react";
 import { useUserApps, useDeleteApp } from "../hooks/useApps";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -42,6 +40,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { AppResponse } from "@/lib/types/backend.types";
+import { StyledCard, StyledButton } from "@/components/ui/design-system";
+import { addSpacesToCamelCase } from "@/lib/utils";
 
 export default function UserApps() {
   const [page, setPage] = useState(1);
@@ -57,31 +57,36 @@ export default function UserApps() {
   };
 
   const AppCard = ({ app }: { app: AppResponse }) => (
-    <Card>
+    <StyledCard>
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <AppWindow className="h-5 w-5 text-primary" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
+              <AppWindow className="h-5 w-5 text-accent" />
             </div>
             <div>
-              <CardTitle className="text-lg">{app.name}</CardTitle>
-              <CardDescription className="flex items-center gap-2">
+              <CardTitle className="text-lg text-text-primary">
+                {app.name}
+              </CardTitle>
+              <CardDescription className="flex items-center gap-2 text-text-secondary">
                 {app.description || "No description"}
               </CardDescription>
             </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
+              {/* <StyledButton buttonType="ghost" size="icon"> */}
+              <MoreVertical className="h-4 w-4" />
+              {/* </StyledButton> */}
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              className="bg-card border-borders-primary shadow-card"
+            >
               <DropdownMenuItem asChild>
                 <Link
                   href={`/dashboard/apps/${app._id}`}
-                  className="flex items-center"
+                  className="flex items-center text-text-secondary hover:text-text-primary hover:bg-accent/10 transition-all duration-200"
                 >
                   <Eye className="mr-2 h-4 w-4" />
                   View Details
@@ -90,7 +95,7 @@ export default function UserApps() {
               <DropdownMenuItem asChild>
                 <Link
                   href={`/dashboard/apps/${app._id}`}
-                  className="flex items-center"
+                  className="flex items-center text-text-secondary hover:text-text-primary hover:bg-accent/10 transition-all duration-200"
                 >
                   <Edit className="mr-2 h-4 w-4" />
                   Edit
@@ -99,37 +104,41 @@ export default function UserApps() {
               <DropdownMenuItem asChild>
                 <Link
                   href={`/dashboard/apps/${app._id}`}
-                  className="flex items-center"
+                  className="flex items-center text-text-secondary hover:text-text-primary hover:bg-accent/10 transition-all duration-200"
                 >
                   <Key className="mr-2 h-4 w-4" />
                   Manage API Key
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-borders-subtle" />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem
-                    className="text-destructive focus:text-destructive"
+                    className="text-accent-red focus:text-accent-red hover:bg-accent-red/10"
                     onSelect={(e) => e.preventDefault()}
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete App
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent className="bg-card border-borders-primary">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Delete App</AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogTitle className="text-text-primary">
+                      Delete App
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-text-secondary">
                       Are you sure you want to delete &quot;{app.name}
                       &quot;? This action cannot be undone. All API keys and
                       data associated with this app will be permanently deleted.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className="border-borders-primary text-text-secondary hover:text-text-primary hover:bg-accent/10">
+                      Cancel
+                    </AlertDialogCancel>
                     <AlertDialogAction
                       onClick={() => handleDelete(app._id)}
-                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      className="bg-accent-red text-white hover:bg-accent-red/90"
                       disabled={isDeleting}
                     >
                       Delete App
@@ -142,177 +151,227 @@ export default function UserApps() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-lg">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Chain:</span>
-            <Badge variant="outline">{app.chainName}</Badge>
+            <span className="text-text-secondary">Chain:</span>
+            <Badge
+              variant="outline"
+              className="border-borders-primary text-text-secondary"
+            >
+              {addSpacesToCamelCase(app.chainName)}
+            </Badge>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Status:</span>
+            <span className="text-text-secondary">Status:</span>
             <div className="flex items-center gap-2">
               <Activity
                 className={`h-3 w-3 ${
-                  app.isActive ? "text-green-500" : "text-red-500"
+                  app.isActive ? "text-accent-green" : "text-accent-red"
                 }`}
               />
               <span
-                className={app.isActive ? "text-green-500" : "text-red-500"}
+                className={
+                  app.isActive ? "text-accent-green" : "text-accent-red"
+                }
               >
                 {app.isActive ? "Active" : "Inactive"}
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-lg text-sm">
             <div>
-              <span className="text-muted-foreground">
+              <span className="text-text-secondary">
                 Today&apos;s Requests:
               </span>
-              <p className="font-medium">
+              <p className="font-medium text-text-primary">
                 {app.dailyRequests.toLocaleString()}
               </p>
             </div>
             <div>
-              <span className="text-muted-foreground">Total Requests:</span>
-              <p className="font-medium">{app.requests.toLocaleString()}</p>
+              <span className="text-text-secondary">Total Requests:</span>
+              <p className="font-medium text-text-primary">
+                {app.requests.toLocaleString()}
+              </p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-lg text-sm">
             <div>
-              <span className="text-muted-foreground">Max RPS:</span>
-              <p className="font-medium">{app.maxRps}</p>
+              <span className="text-text-secondary">Max RPS:</span>
+              <p className="font-medium text-text-primary">{app.maxRps}</p>
             </div>
             <div>
-              <span className="text-muted-foreground">Daily Limit:</span>
-              <p className="font-medium">
+              <span className="text-text-secondary">Daily Limit:</span>
+              <p className="font-medium text-text-primary">
                 {app.dailyRequestsLimit.toLocaleString()}
               </p>
             </div>
           </div>
         </div>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 
   if (error) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-section">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">My Apps</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-text-primary">
+            My Apps
+          </h1>
         </div>
-        <Card>
-          <CardContent className="pt-6">
+        <StyledCard>
+          <CardContent className="pt-2xl">
             <div className="text-center py-8">
-              <p className="text-destructive">
-                Failed to load apps. Please try again.
+              <div className="p-lg rounded-xl bg-accent-red/10 w-fit mx-auto mb-lg">
+                <AppWindow className="h-12 w-12 text-accent-red" />
+              </div>
+              <h3 className="mt-2 text-sm font-semibold text-text-primary">
+                Error Loading Apps
+              </h3>
+              <p className="mt-1 text-sm text-text-secondary">
+                There was a problem loading your apps. Please try refreshing the
+                page.
               </p>
             </div>
           </CardContent>
-        </Card>
+        </StyledCard>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-section">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold tracking-tight text-text-primary">
+            My Apps
+          </h1>
+          <StyledButton buttonType="primary" asChild>
+            <Link href="/dashboard/apps/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Create App
+            </Link>
+          </StyledButton>
+        </div>
+
+        <div className="grid gap-card md:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <StyledCard key={i}>
+              <CardHeader>
+                <div className="flex items-center space-x-3">
+                  <Skeleton className="h-10 w-10 rounded-lg bg-muted" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-32 bg-muted" />
+                    <Skeleton className="h-3 w-24 bg-muted" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <Skeleton className="h-3 w-full bg-muted" />
+                  <Skeleton className="h-3 w-3/4 bg-muted" />
+                </div>
+              </CardContent>
+            </StyledCard>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (apps.length === 0) {
+    return (
+      <div className="space-y-section">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold tracking-tight text-text-primary">
+            My Apps
+          </h1>
+          <StyledButton buttonType="primary" asChild>
+            <Link href="/dashboard/apps/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Create App
+            </Link>
+          </StyledButton>
+        </div>
+
+        <StyledCard>
+          <CardContent className="pt-2xl">
+            <div className="text-center py-8">
+              <div className="p-lg rounded-xl bg-accent/10 w-fit mx-auto mb-lg">
+                <AppWindow className="h-12 w-12 text-accent" />
+              </div>
+              <h3 className="mt-2 text-sm font-semibold text-text-primary">
+                No apps yet
+              </h3>
+              <p className="mt-1 text-sm text-text-secondary">
+                Get started by creating your first app to access blockchain
+                networks.
+              </p>
+              <div className="mt-2xl">
+                <StyledButton buttonType="primary" asChild>
+                  <Link href="/dashboard/apps/new">
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Your First App
+                  </Link>
+                </StyledButton>
+              </div>
+            </div>
+          </CardContent>
+        </StyledCard>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-section">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Apps</h1>
-          <p className="text-muted-foreground">
-            Manage your blockchain applications and API keys
-          </p>
-        </div>
-        <Button asChild>
+        <h1 className="text-3xl font-bold tracking-tight text-text-primary">
+          My Apps
+        </h1>
+        <StyledButton buttonType="primary" asChild>
           <Link href="/dashboard/apps/new">
             <Plus className="mr-2 h-4 w-4" />
             Create App
           </Link>
-        </Button>
+        </StyledButton>
       </div>
 
       {/* Apps Grid */}
-      {isLoading ? (
-        <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i}>
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <Skeleton className="h-10 w-10 rounded-lg" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-5 w-32" />
-                    <Skeleton className="h-4 w-48" />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
-                  <div className="grid grid-cols-2 gap-4">
-                    <Skeleton className="h-8 w-full" />
-                    <Skeleton className="h-8 w-full" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : apps.length === 0 ? (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center py-8">
-              <AppWindow className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-2 text-lg font-semibold">No apps yet</h3>
-              <p className="mt-1 text-muted-foreground">
-                Create your first app to start using the blockchain
-                infrastructure.
-              </p>
-              <div className="mt-6">
-                <Button asChild>
-                  <Link href="/dashboard/apps/new">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Create Your First App
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-            {apps.map((app) => (
-              <AppCard key={app._id} app={app} />
-            ))}
-          </div>
+      <div className="grid gap-card md:grid-cols-2 lg:grid-cols-3">
+        {apps.map((app) => (
+          <AppCard key={app._id} app={app} />
+        ))}
+      </div>
 
-          {/* Pagination */}
-          {pagination && pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                Showing {apps.length} of {pagination.totalApps} apps
-              </p>
-              <div className="flex space-x-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(page - 1)}
-                  disabled={!pagination.hasPrevPage}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(page + 1)}
-                  disabled={!pagination.hasNextPage}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          )}
-        </>
+      {/* Pagination */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-text-secondary">
+            Showing {apps.length} of {pagination.totalApps} apps
+          </p>
+          <div className="flex items-center space-x-2">
+            <StyledButton
+              buttonType="secondary"
+              size="sm"
+              onClick={() => setPage(page - 1)}
+              disabled={!pagination.hasPrevPage}
+            >
+              Previous
+            </StyledButton>
+            <span className="text-sm text-text-secondary">
+              Page {pagination.currentPage} of {pagination.totalPages}
+            </span>
+            <StyledButton
+              buttonType="secondary"
+              size="sm"
+              onClick={() => setPage(page + 1)}
+              disabled={!pagination.hasNextPage}
+            >
+              Next
+            </StyledButton>
+          </div>
+        </div>
       )}
     </div>
   );

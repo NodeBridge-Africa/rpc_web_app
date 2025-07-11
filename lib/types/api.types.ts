@@ -65,17 +65,20 @@ export interface NodeHealthNode {
   nodeUrl: string;
   status: "available" | "unavailable";
   error: string | null;
-  syncing?: boolean | "unknown" | {
-    startingBlock: string;
-    currentBlock: string;
-    highestBlock: string;
-    warpChunksAmount: string | null;
-    warpChunksProcessed: string | null;
-    stages: Array<{
-      name: string;
-      block: string;
-    }>;
-  };
+  syncing?:
+    | boolean
+    | "unknown"
+    | {
+        startingBlock: string;
+        currentBlock: string;
+        highestBlock: string;
+        warpChunksAmount: string | null;
+        warpChunksProcessed: string | null;
+        stages: Array<{
+          name: string;
+          block: string;
+        }>;
+      };
   head_slot?: string | "unknown";
 }
 
@@ -107,6 +110,7 @@ export interface AdminStats {
   totalUsers: number;
   totalApps: number;
   activeChains: number;
+  totalDailyRequests: number;
   totalRequests: number;
 }
 

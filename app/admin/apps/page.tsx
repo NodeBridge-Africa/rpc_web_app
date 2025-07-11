@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Settings, Copy, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { addSpacesToCamelCase } from "@/lib/utils";
 
 export default function AdminAppsPage() {
   const [page] = useState(1);
@@ -85,7 +86,9 @@ export default function AdminAppsPage() {
       accessorKey: "chainName",
       header: "Chain",
       cell: ({ row }) => (
-        <Badge variant="outline">{row.getValue("chainName")}</Badge>
+        <Badge variant="outline">
+          {addSpacesToCamelCase(row.getValue("chainName"))}
+        </Badge>
       ),
     },
     {

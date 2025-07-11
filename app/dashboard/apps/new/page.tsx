@@ -38,6 +38,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCreateApp } from "@/app/dashboard/hooks/useApps";
 import { useAvailableChains } from "@/app/dashboard/hooks/useChains";
 import { ChainResponse } from "@/lib/types/backend.types";
+import { addSpacesToCamelCase } from "@/lib/utils";
 
 const createAppSchema = z.object({
   name: z.string().min(3, "App name must be at least 3 characters"),
@@ -197,7 +198,8 @@ export default function CreateAppPage() {
                         ) : availableChains.length > 0 ? (
                           availableChains.map((chain) => (
                             <SelectItem key={chain._id} value={chain._id}>
-                              {chain.name} (Chain ID: {chain.chainId})
+                              {addSpacesToCamelCase(chain.name)} (Chain ID:{" "}
+                              {chain.chainId})
                             </SelectItem>
                           ))
                         ) : (

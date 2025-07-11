@@ -22,6 +22,7 @@ import {
   WifiOff,
 } from "lucide-react";
 import { getStatusVariant } from "../lib/utils";
+import { addSpacesToCamelCase } from "@/lib/utils";
 
 export default function AdminNodeHealthPage() {
   const { data: nodeHealth, isLoading } = useNodeHealth();
@@ -88,7 +89,9 @@ export default function AdminNodeHealthPage() {
                   <div className="flex items-center gap-3">
                     {getStatusIcon(node?.overall)}
                     <div>
-                      <CardTitle className="capitalize">{node.chain}</CardTitle>
+                      <CardTitle className="capitalize">
+                        {addSpacesToCamelCase(node.chain)}
+                      </CardTitle>
                       <CardDescription>
                         Last updated:{" "}
                         {new Date(node.timestamp).toLocaleTimeString()}

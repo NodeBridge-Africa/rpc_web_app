@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Chain } from "@/lib/types/api.types";
+import { addSpacesToCamelCase, removeSpaces } from "@/lib/utils";
 import {
   useAdminChains,
   useCreateChain,
@@ -77,7 +78,11 @@ export default function AdminChainsPage() {
   });
 
   const handleCreateChain = (data: ChainInput) => {
-    createChain(data);
+    const chainData = {
+      ...data,
+      name: removeSpaces(data.name),
+    };
+    createChain(chainData);
     setCreateDialog(false);
     form.reset();
   };
@@ -127,7 +132,7 @@ export default function AdminChainsPage() {
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
                     <Network className="h-5 w-5" />
-                    {chain.name}
+                    {addSpacesToCamelCase(chain.name)}
                   </CardTitle>
                   <Badge variant={chain.isEnabled ? "default" : "secondary"}>
                     {chain.isEnabled ? "Active" : "Inactive"}

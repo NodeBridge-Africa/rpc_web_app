@@ -6,13 +6,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useProfile } from "../hooks/useProfile";
@@ -52,6 +50,7 @@ import {
   Download,
   Key,
 } from "lucide-react";
+import { StyledCard, StyledButton } from "@/components/ui/design-system";
 
 const passwordSchema = z
   .object({
@@ -137,12 +136,12 @@ export default function Settings() {
     title: string;
     children: React.ReactNode;
   }) => (
-    <Card>
+    <StyledCard>
       <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
+        <CardTitle className="text-lg text-text-primary">{title}</CardTitle>
       </CardHeader>
       <CardContent>{children}</CardContent>
-    </Card>
+    </StyledCard>
   );
 
   const InfoRow = ({
@@ -158,28 +157,32 @@ export default function Settings() {
   }) => (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center space-x-3">
-        <Icon className="h-4 w-4 text-muted-foreground" />
-        <span className="text-sm text-muted-foreground">{label}</span>
+        <div className="p-2 rounded-lg bg-accent/10">
+          <Icon className="h-4 w-4 text-accent" />
+        </div>
+        <span className="text-sm text-text-secondary">{label}</span>
       </div>
       {loading ? (
-        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-4 w-24 bg-muted" />
       ) : (
-        <span className="text-sm font-medium">{value}</span>
+        <span className="text-sm font-medium text-text-primary">{value}</span>
       )}
     </div>
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-section">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Account Settings</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-bold tracking-tight text-text-primary">
+          Account Settings
+        </h1>
+        <p className="text-text-secondary">
           Manage your account information and preferences
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-card md:grid-cols-1 lg:grid-cols-2">
         {/* Profile Information */}
         <InfoCard title="Profile Information">
           <div className="space-y-1">
@@ -189,7 +192,7 @@ export default function Settings() {
               value={user?.email}
               loading={profileLoading}
             />
-            <Separator />
+            <Separator className="bg-borders-subtle" />
             <InfoRow
               icon={Shield}
               label="Account Type"
@@ -200,7 +203,7 @@ export default function Settings() {
               }
               loading={profileLoading}
             />
-            <Separator />
+            <Separator className="bg-border" />
             <InfoRow
               icon={Calendar}
               label="Member Since"
@@ -227,14 +230,14 @@ export default function Settings() {
               value={stats?.totalApps || 0}
               loading={statsLoading}
             />
-            <Separator />
+            <Separator className="bg-border" />
             <InfoRow
               icon={BarChart3}
               label="Total Requests"
               value={(stats?.totalRequests || 0).toLocaleString()}
               loading={statsLoading}
             />
-            <Separator />
+            <Separator className="bg-border" />
             <InfoRow
               icon={SettingsIcon}
               label="App Limit"
@@ -246,28 +249,33 @@ export default function Settings() {
       </div>
 
       {/* Account Actions */}
-      <Card>
+      <StyledCard>
         <CardHeader>
-          <CardTitle>Account Actions</CardTitle>
-          <CardDescription>
-            Manage your account security and preferences
+          <CardTitle className="text-card-foreground">
+            Account Actions
+          </CardTitle>
+          <CardDescription className="text-muted-foreground">
+            Manage your account security and data
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-            <Button
-              variant="outline"
+          <div className="flex flex-wrap gap-4">
+            <StyledButton
+              buttonType="secondary"
+              onClick={() => setShowEmailDialog(true)}
+            >
+              <Mail className="mr-2 h-4 w-4" />
+              Update Email
+            </StyledButton>
+            <StyledButton
+              buttonType="secondary"
               onClick={() => setShowPasswordDialog(true)}
             >
               <Key className="mr-2 h-4 w-4" />
               Change Password
-            </Button>
-            <Button variant="outline" onClick={() => setShowEmailDialog(true)}>
-              <Mail className="mr-2 h-4 w-4" />
-              Update Email
-            </Button>
-            <Button
-              variant="outline"
+            </StyledButton>
+            <StyledButton
+              buttonType="secondary"
               onClick={() => exportDataMutation.mutate()}
               disabled={exportDataMutation.isPending}
             >
@@ -277,57 +285,20 @@ export default function Settings() {
                 <Download className="mr-2 h-4 w-4" />
               )}
               Export Data
-            </Button>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Keep your account secure by regularly updating your password and
-            email.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* API Usage Guidelines */}
-      <Card>
-        <CardHeader>
-          <CardTitle>API Usage Guidelines</CardTitle>
-          <CardDescription>
-            Important information about using our API services
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3 text-sm">
-            <div>
-              <h4 className="font-medium">Rate Limits</h4>
-              <p className="text-muted-foreground">
-                Each app has individual rate limits. Check your app settings for
-                specific limits.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-medium">API Key Security</h4>
-              <p className="text-muted-foreground">
-                Keep your API keys secure and never expose them in client-side
-                code.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-medium">Fair Usage</h4>
-              <p className="text-muted-foreground">
-                Our services are subject to fair usage policies. Excessive usage
-                may result in temporary restrictions.
-              </p>
-            </div>
+            </StyledButton>
           </div>
         </CardContent>
-      </Card>
+      </StyledCard>
 
       {/* Password Change Dialog */}
       <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
-        <DialogContent>
+        <DialogContent className="bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Change Password</DialogTitle>
-            <DialogDescription>
-              Enter your current password and choose a new password.
+            <DialogTitle className="text-card-foreground">
+              Change Password
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Enter your current password and choose a new one.
             </DialogDescription>
           </DialogHeader>
           <Form {...passwordForm}>
@@ -340,13 +311,15 @@ export default function Settings() {
                 name="currentPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Current Password</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      Current Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Enter current password"
+                        className="bg-input border-border text-foreground"
                         {...field}
-                        disabled={updatePasswordMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -358,13 +331,15 @@ export default function Settings() {
                 name="newPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>New Password</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      New Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Enter new password"
+                        className="bg-input border-border text-foreground"
                         {...field}
-                        disabled={updatePasswordMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -376,13 +351,15 @@ export default function Settings() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm New Password</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      Confirm Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Confirm new password"
+                        className="bg-input border-border text-foreground"
                         {...field}
-                        disabled={updatePasswordMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -390,27 +367,23 @@ export default function Settings() {
                 )}
               />
               <DialogFooter>
-                <Button
+                <StyledButton
+                  buttonType="ghost"
                   type="button"
-                  variant="outline"
                   onClick={() => setShowPasswordDialog(false)}
-                  disabled={updatePasswordMutation.isPending}
                 >
                   Cancel
-                </Button>
-                <Button
+                </StyledButton>
+                <StyledButton
+                  buttonType="primary"
                   type="submit"
                   disabled={updatePasswordMutation.isPending}
                 >
-                  {updatePasswordMutation.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Updating...
-                    </>
-                  ) : (
-                    "Update Password"
+                  {updatePasswordMutation.isPending && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                </Button>
+                  Update Password
+                </StyledButton>
               </DialogFooter>
             </form>
           </Form>
@@ -419,11 +392,13 @@ export default function Settings() {
 
       {/* Email Change Dialog */}
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
-        <DialogContent>
+        <DialogContent className="bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Update Email</DialogTitle>
-            <DialogDescription>
-              Enter your new email address and your current password for
+            <DialogTitle className="text-card-foreground">
+              Update Email
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Enter your new email address and current password for
               verification.
             </DialogDescription>
           </DialogHeader>
@@ -437,13 +412,15 @@ export default function Settings() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>New Email Address</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      New Email Address
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="email"
                         placeholder="Enter new email"
+                        className="bg-input border-border text-foreground"
                         {...field}
-                        disabled={updateEmailMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -455,13 +432,15 @@ export default function Settings() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Current Password</FormLabel>
+                    <FormLabel className="text-card-foreground">
+                      Current Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder="Enter current password"
+                        className="bg-input border-border text-foreground"
                         {...field}
-                        disabled={updateEmailMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -469,24 +448,23 @@ export default function Settings() {
                 )}
               />
               <DialogFooter>
-                <Button
+                <StyledButton
+                  buttonType="ghost"
                   type="button"
-                  variant="outline"
                   onClick={() => setShowEmailDialog(false)}
-                  disabled={updateEmailMutation.isPending}
                 >
                   Cancel
-                </Button>
-                <Button type="submit" disabled={updateEmailMutation.isPending}>
-                  {updateEmailMutation.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Updating...
-                    </>
-                  ) : (
-                    "Update Email"
+                </StyledButton>
+                <StyledButton
+                  buttonType="primary"
+                  type="submit"
+                  disabled={updateEmailMutation.isPending}
+                >
+                  {updateEmailMutation.isPending && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                </Button>
+                  Update Email
+                </StyledButton>
               </DialogFooter>
             </form>
           </Form>
