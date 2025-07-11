@@ -7,12 +7,14 @@ import { LoginInput, loginSchema } from '@/lib/validators/auth.validators';
 import { useLogin, useAuthRedirect } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Github, Loader2 } from 'lucide-react';
+import { Github, Loader2, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LoginPage() {
   const { mutate: login, isPending } = useLogin();
   useAuthRedirect(); // Handle redirects for authenticated users
+  const [showPassword, setShowPassword] = useState(false);
+  
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -106,13 +108,29 @@ export default function LoginPage() {
                 <label className="text-sm font-medium text-gray-200 block mb-2">
                   Password
                 </label>
-                <Input
-                  {...form.register('password')}
-                  type="password"
-                  placeholder="••••••••"
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
-                  disabled={isPending}
-                />
+                <div className="relative">
+                  <Input
+                    {...form.register('password')}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 pr-10"
+                    disabled={isPending}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-white/5 text-gray-400 hover:text-gray-200"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={isPending}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
                 {form.formState.errors.password && (
                   <p className="text-sm text-red-500 mt-1">
                     {form.formState.errors.password.message}
