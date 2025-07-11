@@ -6,7 +6,7 @@ import { NetworkStatusCard } from "@/components/ui/NetworkStatusCard";
 const networks = [
   {
     name: "Ethereum Mainnet",
-    logo: "ETH",
+    logo: "/images/gallery/ETH.png",
     status: "Live",
     statusColor: "green",
     chain: "Ethereum",
@@ -34,22 +34,29 @@ const networks = [
   },
   {
     name: "Sepolia",
-    logo: "ETH",
+    logo: "/images/gallery/ETH.png",
     status: "Live",
     statusColor: "green",
     chain: "Ethereum Testnet",
   },
   {
     name: "Holesky",
-    logo: "ETH",
+    logo: "/images/gallery/ETH.png",
     status: "Live",
     statusColor: "green",
     chain: "Ethereum Testnet",
   },
+  {
+    name: "Gnosis Chain",
+    logo: "/images/gallery/GNO.png",
+    status: "Beta",
+    statusColor: "blue",
+    chain: "Gnosis",
+  },
 
   {
     name: "Aztec",
-    logo: "AZT",
+    logo: "/images/gallery/Aztec.png",
     status: "Testnet",
     statusColor: "yellow",
     chain: "ZK-Rollup",
@@ -57,6 +64,7 @@ const networks = [
 ];
 
 export default function SupportedNetworks() {
+
   return (
     <section id="networks" className="py-24 bg-black/30">
       <div className="container mx-auto px-4">
