@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import Image from 'next/image';
 
 interface NetworkStatusCardProps {
   name: string;
@@ -23,9 +24,15 @@ export function NetworkStatusCard({
     <Card className={cn("hover:shadow-lg transition-all duration-300", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div className="flex items-center space-x-4">
-          <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center border border-border">
-            <span className="text-sm font-semibold">{logo}</span>
-          </div>
+        <div className="w-16 h-16 rounded-full bg-gray-100/16 flex items-center justify-center">
+          <Image
+      src={logo}
+      alt={`${name} logo`}
+      width={36}
+      height={36}
+      className="object-contain"
+       />
+    </div>
           <div>
             <h3 className="font-medium">{name}</h3>
             <p className="text-sm text-muted-foreground">{chain}</p>
